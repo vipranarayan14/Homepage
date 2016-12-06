@@ -1,0 +1,9 @@
+.rssShow-container {
+    height: 450px;
+    overflow-x: scroll;
+}
+
+.rssShow * a {
+    color: blue;
+    text-decoration: none;
+}

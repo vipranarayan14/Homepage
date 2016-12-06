@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/w3.css" type="text/css">
+    <link rel="stylesheet" href="assets/w3-theme-amber.css" type="text/css">
+    <link rel="stylesheet" href="home.css" type="text/css">
+</head>
+
+<body class="w3-theme">
+    <header class="w3-row w3-padding-8 w3-theme-d2 w3-xlarge">
+        <div class="w3-quarter">
+            <ul class="w3-navbar">
+                <h1 class="w3-xlarge" style="padding-left:8px">Hello, Prasanna!</h1>
+            </ul>
+        </div>
+        <div class="w3-half">
+            <input id="searchInput" type="search" class="w3-amber w3-border-0 w3-padding" style="width:100%" placeholder="Search Google">
+        </div>
+        <div class="w3-quarter"></div>
+    </header>
+    <nav class="w3-container w3-padding-12 w3-theme-d1 w3-large">
+        <span class="w3-tag w3-theme-d2">
+            <a id="linkApps" href="#">Apps</a>
+        </span>
+        <span class="w3-tag w3-theme-d2">
+            <a id="linkExts" href="#">Exts</a>
+        </span>
+    </nav>
+    <main class="w3-row-padding">
+        <div class="w3-third w3-section">
+            <div class="w3-card-4">
+                <div class="w3-container w3-white rssShow-container">
+                    <div class="rssShow" source="http://rss.bloople.net/?url=http%3A%2F%2Fwww.thehindu.com%2Fsci-tech%2Ftechnology%2F%3Fservice%3Drss&showtitle=true&type=html"></div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-third w3-section">
+            <div class="w3-card-4">
+                <div class="w3-container w3-white rssShow-container">
+                    <div class="rssShow" source="http://rss.bloople.net/?url=http%3A%2F%2Fwww.thehindu.com%2Fnews%2Fnational%2F%3Fservice%3Drss&showtitle=true&type=html"></div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-third w3-section">
+            <div class="w3-card-4">
+                <div class="w3-container w3-white">
+                </div>
+            </div>
+        </div>
+    </main>
+     <script src="home.js"></script>
+</body>
+
+</html>
