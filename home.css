@@ -8,6 +8,10 @@
     text-decoration: none;
 }
 
+span.rssReloader {
+    cursor: pointer;
+}
+
 nav * a {
     text-decoration: none;
 }
