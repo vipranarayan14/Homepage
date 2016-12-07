@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="assets/w3.css" type="text/css">
     <link rel="stylesheet" href="assets/w3-theme-amber.css" type="text/css">
     <link rel="stylesheet" href="home.css" type="text/css">
+    <script src="assets/rss.js"></script>
+    <script src="rssSrcs.js"></script>
 </head>
 
 <body class="w3-theme">
@@ -22,25 +24,33 @@
         <div class="w3-quarter"></div>
     </header>
     <nav class="w3-container w3-padding-12 w3-theme-d1 w3-large">
-        <span class="w3-tag w3-theme-d2">
+        <span class="w3-tag w3-theme-l2 w3-hover-orange">
             <a id="linkApps" href="#">Apps</a>
         </span>
-        <span class="w3-tag w3-theme-d2">
+        <span class="w3-tag w3-theme-l2 w3-hover-orange">
             <a id="linkExts" href="#">Exts</a>
         </span>
     </nav>
     <main class="w3-row-padding">
         <div class="w3-third w3-section">
             <div class="w3-card-4">
+                <div class="w3-container w3-blue w3-display-top">
+                    <span>Hindu - Technology</span>
+                    <span class="w3-right rssReloader" source="rssSources.first">Reload</span>
+                </div>
                 <div class="w3-container w3-white rssShow-container">
-                    <div class="rssShow" source="http://rss.bloople.net/?url=http%3A%2F%2Fwww.thehindu.com%2Fsci-tech%2Ftechnology%2F%3Fservice%3Drss&showtitle=true&type=html"></div>
+                    <div class="rssShow" source="rssSources.first"></div>
                 </div>
             </div>
         </div>
         <div class="w3-third w3-section">
             <div class="w3-card-4">
+                <div class="w3-container w3-blue w3-display-top">
+                    <span>The Hindu - National</span>
+                    <span class="w3-right rssReloader" source="rssSources.second">Reload</span>
+                </div>
                 <div class="w3-container w3-white rssShow-container">
-                    <div class="rssShow" source="http://rss.bloople.net/?url=http%3A%2F%2Fwww.thehindu.com%2Fnews%2Fnational%2F%3Fservice%3Drss&showtitle=true&type=html"></div>
+                    <div class="rssShow" source="rssSources.second"></div>
                 </div>
             </div>
         </div>
