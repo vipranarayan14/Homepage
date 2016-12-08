@@ -33,6 +33,5 @@ function searchGoogle(searchQuery) {
 
 Rss.load();
 
-
 console.log("Hello!!");
 
