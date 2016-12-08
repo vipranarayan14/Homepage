@@ -7,6 +7,7 @@ var Rss = {
 
             if (this.readyState == 4 && this.status == 200) {
 
+                console.log("Getting Rss feeds...");
                 localStorage.setItem(srcUrl, this.responseText);
                 ele.innerHTML = this.responseText;
             }
@@ -27,11 +28,18 @@ var Rss = {
 
             var lsItem = localStorage.getItem(srcUrl);
 
+            var minutesNow = new Date().getMinutes();
+
             if (lsItem !== null) {
 
                 eles[i].innerHTML = lsItem;
 
             } else {
+
+                Rss.getFeeds(srcUrl, eles[i]);
+            }
+
+            if (minutesNow === (30 || 0)) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
             }
