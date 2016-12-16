@@ -4,6 +4,9 @@
   "name": "myHome",
   "description": "Customised New Tab with important links",
   "version": "1.0",
+  "icons": {
+    "48": "assets/icon.png"
+  },
 
   "browser_action": {
     "default_icon": "assets/icon.png",
