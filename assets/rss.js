@@ -1,23 +1,22 @@
 var Rss = {
 
-    getFeeds: function (srcUrl, ele) {
+    getFeeds: function(srcUrl, ele) {
         var xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function () {
-
+        xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
 
-                console.log("Got Rss feeds.");
-                localStorage.setItem(srcUrl, this.responseText);
-                ele.innerHTML = this.responseText;
+                console.info("Got Feeds.");
+                Rss.update(srcUrl, this.responseText, ele);
             }
-        };
+        }
 
         xhttp.open("GET", srcUrl, true);
         xhttp.send();
+
     },
 
-    load: function () {
+    load: function() {
 
         var eles = document.querySelectorAll(".rssShow");
 
@@ -30,7 +29,7 @@ var Rss = {
 
             var minutesNow = new Date().getMinutes();
 
-            Number.prototype.between = function (a, b, inclusive=true) {
+            Number.prototype.between = function(a, b, inclusive = true) {
                 var min = Math.min(a, b),
                     max = Math.max(a, b);
 
@@ -46,7 +45,7 @@ var Rss = {
                 Rss.getFeeds(srcUrl, eles[i]);
             }
 
-            if (minutesNow.between(0,5) || minutesNow.between(30,35)) {
+            if (minutesNow.between(0, 5) || minutesNow.between(30, 35)) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
             }
@@ -54,10 +53,63 @@ var Rss = {
 
     },
 
-    reload: function (trgt) {
+    reload: function(trgt) {
 
         var rlTarget = rssSources[trgt.split('.')[1]];
         localStorage.removeItem(rlTarget);
         Rss.load();
+    },
+
+    update: function(srcUrl, feed, ele) {
+
+        var rssFeed = Rss.makeHTML(feed);
+        localStorage.setItem(srcUrl, rssFeed);
+        ele.innerHTML = rssFeed;
+
+    },
+
+    makeHTML: function(xml) {
+
+        function parseXMLtoJSON(xmlRaw) {
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(xmlRaw, "text/xml");
+
+            if (xmlDoc.querySelector("parsererror") === null) {
+
+                var x2js = new X2JS();
+                var jsonObj = x2js.xml2json(xmlDoc);
+                return jsonObj;
+
+            } else {
+                console.log("%cThe provided URL does not contain a feed!", "color:red;");
+                console.log(xmlDoc.querySelector("parsererror"));
+                return null;
+            }
+        }
+
+        var feedObj, feedChannel, feedTitle, feedItems, HTMLDoc;
+
+        feedObj = parseXMLtoJSON(xml);
+
+        if (feedObj !== null) {
+
+            feedChannel = feedObj.rss.channel;
+
+            feedTitle = '<h3 class="feed-title">' + '<a href="' + feedChannel.link + '">'
+                + feedChannel.title
+                + '</a>' + '</h3>';
+
+            feedItems = "";
+
+            for (var i = 0; i < feedChannel.item.length; i++) {
+                feedItems += ('<h4 class="feed-item-title">' + '<a href="' + feedChannel.item[i].link + '">'
+                    + feedChannel.item[i].title + '</a></h4>');
+                feedItems += '<p class="feed-item-desc">' + feedChannel.item[i].description + '</p>';
+            }
+
+            HTMLDoc = feedTitle + feedItems;
+
+            return HTMLDoc;
+        }
     }
 }
