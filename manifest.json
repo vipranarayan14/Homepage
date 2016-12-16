@@ -17,6 +17,6 @@
     
   "permissions": [
     "tabs",
-    "http://rss.bloople.net/*"
+    "http://www.thehindu.com/*"
   ]
 }
