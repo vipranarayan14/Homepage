@@ -1,2 +1,9 @@
 http://rss.bloople.net/?url=http%3A%2F%2Fwww.thehindu.com%2Fsci-tech%2Ftechnology%2F%3Fservice%3Drss&showtitle=true&type=html
 http://rss.bloople.net/?url=http%3A%2F%2Fwww.thehindu.com%2Fnews%2Fnational%2F%3Fservice%3Drss&showtitle=true&type=html
+
+Number.prototype.between = function(a, b, inclusive) {
+  var min = Math.min(a, b),
+    max = Math.max(a, b);
+
+  return inclusive ? this >= min && this <= max : this > min && this < max;
+}

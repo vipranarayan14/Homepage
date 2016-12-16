@@ -31,7 +31,7 @@ function searchGoogle(searchQuery) {
 }
 
 
-Rss.load();
+//Rss.load();
 
 console.log("Hello!!");
 
