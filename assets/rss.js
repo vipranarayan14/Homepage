@@ -1,21 +1,22 @@
 var Rss = {
 
-    getFeeds: function (srcUrl, ele) {
+    getFeeds: function(srcUrl, ele) {
         var xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function () {
+        xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                Rss.makeHTML(this.responseText)
-                //document.body.innerHTML = result;
+
+                console.info("Got Feeds.");
+                Rss.update(srcUrl, this.responseText, ele);
             }
         }
 
-        xhttp.open("GET", "http://www.thehindu.com/news/national/?service=rs", true);
+        xhttp.open("GET", srcUrl, true);
         xhttp.send();
 
     },
 
-    load: function () {
+    load: function() {
 
         var eles = document.querySelectorAll(".rssShow");
 
@@ -28,7 +29,7 @@ var Rss = {
 
             var minutesNow = new Date().getMinutes();
 
-            Number.prototype.between = function (a, b, inclusive = true) {
+            Number.prototype.between = function(a, b, inclusive = true) {
                 var min = Math.min(a, b),
                     max = Math.max(a, b);
 
@@ -52,15 +53,22 @@ var Rss = {
 
     },
 
-    reload: function (trgt) {
+    reload: function(trgt) {
 
         var rlTarget = rssSources[trgt.split('.')[1]];
         localStorage.removeItem(rlTarget);
         Rss.load();
     },
 
-    makeHTML: function (xml) {
-        console.log(xml);
+    update: function(srcUrl, feed, ele) {
+
+        var rssFeed = Rss.makeHTML(feed);
+        localStorage.setItem(srcUrl, rssFeed);
+        ele.innerHTML = rssFeed;
+
+    },
+
+    makeHTML: function(xml) {
 
         function parseXMLtoJSON(xmlRaw) {
             var parser = new DOMParser();
@@ -87,23 +95,21 @@ var Rss = {
 
             feedChannel = feedObj.rss.channel;
 
-            feedTitle = '<h3>' + '<a href="' + feedChannel.link + '">'
+            feedTitle = '<h3 class="feed-title">' + '<a href="' + feedChannel.link + '">'
                 + feedChannel.title
                 + '</a>' + '</h3>';
 
             feedItems = "";
 
             for (var i = 0; i < feedChannel.item.length; i++) {
-                feedItems += ('<h4>' + '<a href="' + feedChannel.item[i].link + '">'
+                feedItems += ('<h4 class="feed-item-title">' + '<a href="' + feedChannel.item[i].link + '">'
                     + feedChannel.item[i].title + '</a></h4>');
-                feedItems += '<p>' + feedChannel.item[i].description + '</p>';
+                feedItems += '<p class="feed-item-desc">' + feedChannel.item[i].description + '</p>';
             }
 
             HTMLDoc = feedTitle + feedItems;
 
-            // return HTMLDoc;
-            console.log(HTMLDoc);
+            return HTMLDoc;
         }
     }
 }
-Rss.getFeeds();
