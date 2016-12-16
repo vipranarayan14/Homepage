@@ -9,6 +9,13 @@ var Rss = {
                 console.info("Got Feeds.");
                 Rss.update(srcUrl, this.responseText, ele);
             }
+            else {
+
+                var failedMsg = "Feeds fetching failed!";
+
+                console.warn(failedMsg);
+                ele.innerHTML = '<center><p style="font-size:20px; color:red">' + failedMsg + '</p></center>';
+            }
         }
 
         xhttp.open("GET", srcUrl, true);
