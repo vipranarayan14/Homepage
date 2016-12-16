@@ -7,7 +7,7 @@ var Rss = {
 
             if (this.readyState == 4 && this.status == 200) {
 
-                console.log("Getting Rss feeds...");
+                console.log("Got Rss feeds.");
                 localStorage.setItem(srcUrl, this.responseText);
                 ele.innerHTML = this.responseText;
             }
@@ -30,6 +30,13 @@ var Rss = {
 
             var minutesNow = new Date().getMinutes();
 
+            Number.prototype.between = function (a, b, inclusive=true) {
+                var min = Math.min(a, b),
+                    max = Math.max(a, b);
+
+                return inclusive ? this >= min && this <= max : this > min && this < max;
+            }
+
             if (lsItem !== null) {
 
                 eles[i].innerHTML = lsItem;
@@ -39,7 +46,7 @@ var Rss = {
                 Rss.getFeeds(srcUrl, eles[i]);
             }
 
-            if (minutesNow === (30 || 0)) {
+            if (minutesNow.between(0,5) || minutesNow.between(30,35)) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
             }
@@ -48,6 +55,7 @@ var Rss = {
     },
 
     reload: function (trgt) {
+
         var rlTarget = rssSources[trgt.split('.')[1]];
         localStorage.removeItem(rlTarget);
         Rss.load();
