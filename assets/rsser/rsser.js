@@ -9,19 +9,19 @@ var Rss = {
                 console.info("Got Feeds.");
                 Rss.update(srcUrl, this.responseXML, ele);
             }
-            else {
-
-                var failedMsg = "Feeds fetching failed!";
-
-                console.warn(failedMsg);
-                ele.innerHTML =
-                    '<center><p style="font-size:20px; color:red">'
-                    + failedMsg
-                    + '</p></center>';
-            }
         }
 
-        xhttp.open("GET", "home.html", true);
+        xhttp.addEventListener("error", function () {
+            var msg = "Feeds fetching failed!";
+
+            console.warn(msg);
+            ele.innerHTML =
+                '<center><p style="font-size:20px; color:red">'
+                + msg
+                + '</p></center>';
+        });
+
+        xhttp.open("GET", srcUrl, true);
         xhttp.send();
 
     },
@@ -118,12 +118,12 @@ var Rss = {
             HTMLDoc = feedTitle + feedItems;
         } else {
 
-            var failedMsg = "The provided URL does not contain a feed!";
+            var msg = "The provided URL does not contain a feed!";
 
-            console.log("%c" + failedMsg, "color:red;");
+            console.log("%c" + msg, "color:red;");
 
             HTMLDoc = '<center><p style="font-size:20px; color:red">'
-                + failedMsg
+                + msg
                 + '</p></center>';
         }
 
