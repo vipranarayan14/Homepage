@@ -1,29 +1,32 @@
 var Rss = {
 
-    getFeeds: function(srcUrl, ele) {
+    getFeeds: function (srcUrl, ele) {
         var xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function() {
+        xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
 
                 console.info("Got Feeds.");
-                Rss.update(srcUrl, this.responseText, ele);
+                Rss.update(srcUrl, this.responseXML, ele);
             }
             else {
 
                 var failedMsg = "Feeds fetching failed!";
 
                 console.warn(failedMsg);
-                ele.innerHTML = '<center><p style="font-size:20px; color:red">' + failedMsg + '</p></center>';
+                ele.innerHTML =
+                    '<center><p style="font-size:20px; color:red">'
+                    + failedMsg
+                    + '</p></center>';
             }
         }
 
-        xhttp.open("GET", srcUrl, true);
+        xhttp.open("GET", "home.html", true);
         xhttp.send();
 
     },
 
-    load: function() {
+    load: function () {
 
         var eles = document.querySelectorAll(".rssShow");
 
@@ -36,7 +39,7 @@ var Rss = {
 
             var minutesNow = new Date().getMinutes();
 
-            Number.prototype.between = function(a, b, inclusive = true) {
+            Number.prototype.between = function (a, b, inclusive = true) {
                 var min = Math.min(a, b),
                     max = Math.max(a, b);
 
@@ -60,14 +63,14 @@ var Rss = {
 
     },
 
-    reload: function(trgt) {
+    reload: function (trgt) {
 
         var rlTarget = rssSources[trgt.split('.')[1]];
         localStorage.removeItem(rlTarget);
         Rss.load();
     },
 
-    update: function(srcUrl, feed, ele) {
+    update: function (srcUrl, feed, ele) {
 
         var rssFeed = Rss.makeHTML(feed);
         localStorage.setItem(srcUrl, rssFeed);
@@ -75,21 +78,19 @@ var Rss = {
 
     },
 
-    makeHTML: function(xml) {
+    makeHTML: function (xml) {
 
         function parseXMLtoJSON(xmlRaw) {
-            var parser = new DOMParser();
-            var xmlDoc = parser.parseFromString(xmlRaw, "text/xml");
 
-            if (xmlDoc.querySelector("parsererror") === null) {
+            var xmlDoc = xmlRaw;
+
+            if (xmlDoc !== null) {
 
                 var x2js = new X2JS();
                 var jsonObj = x2js.xml2json(xmlDoc);
                 return jsonObj;
 
             } else {
-                console.log("%cThe provided URL does not contain a feed!", "color:red;");
-                console.log(xmlDoc.querySelector("parsererror"));
                 return null;
             }
         }
@@ -115,8 +116,17 @@ var Rss = {
             }
 
             HTMLDoc = feedTitle + feedItems;
+        } else {
 
-            return HTMLDoc;
+            var failedMsg = "The provided URL does not contain a feed!";
+
+            console.log("%c" + failedMsg, "color:red;");
+
+            HTMLDoc = '<center><p style="font-size:20px; color:red">'
+                + failedMsg
+                + '</p></center>';
         }
+
+        return HTMLDoc;
     }
 }
