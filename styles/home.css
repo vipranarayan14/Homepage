@@ -3,11 +3,21 @@
     overflow-x: scroll;
 }
 
-.rssShow * a {
+.rssShow .feed-item-title {
+    margin: 0;
+    padding: 0;
+}
+
+.rssShow .feed-title > a, .rssShow .feed-item-title > a {
     color: blue;
     text-decoration: none;
 }
 
+
+.rssShow .feed-item-date {
+    color: lightslategray;
+    font-size: 12px;
+}
 span.rssReloader {
     cursor: pointer;
 }
