@@ -110,9 +110,15 @@ var Rss = {
             feedItems = "";
 
             for (var i = 0; i < feedChannel.item.length; i++) {
-                feedItems += ('<h4 class="feed-item-title">' + '<a href="' + feedChannel.item[i].link + '">'
-                    + feedChannel.item[i].title + '</a></h4>');
+
+                feedItems += ('<h4 class="feed-item-title">' 
+                          + '<a href="' + feedChannel.item[i].link + '">'
+                          + feedChannel.item[i].title + '</a></h4>');
+
+                feedItems += '<span class="feed-item-date">' + dater.format(feedChannel.item[i].pubDate) + '</span>';
+
                 feedItems += '<p class="feed-item-desc">' + feedChannel.item[i].description + '</p>';
+
             }
 
             HTMLDoc = feedTitle + feedItems;
