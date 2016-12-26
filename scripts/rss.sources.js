@@ -1,6 +1,6 @@
 var rssSources = {
-"THNational" : "http://www.thehindu.com/news/national/?service=rss",
-"THChennai" : "http://www.thehindu.com/news/cities/Chennai/?service=rss",
-"SDTop" : "https://rss.sciencedaily.com/top.xml",
-"Popsci" : "http://www.popsci.com/syndication/site_default/62"
+"The Hindu - National" : "http://www.thehindu.com/news/national/?service=rss",
+"The Hindu - Chennai" : "http://www.thehindu.com/news/cities/Chennai/?service=rss",
+"Science Daily - Top" : "https://rss.sciencedaily.com/top.xml",
+"Popsci - Science" : "http://www.popsci.com/syndication/site_default/62"
 }

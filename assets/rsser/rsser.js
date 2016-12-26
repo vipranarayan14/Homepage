@@ -6,6 +6,7 @@ var Rss = {
         for (feed_src in rssSources) {
 
             var feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
+            feedTemp.querySelector('.rssChannelTitle').innerHTML = feed_src;
             feedTemp.querySelector('.rssReloader').setAttribute('source', 'rssSources.' + feed_src);
             feedTemp.querySelector('.rssShow').setAttribute('source', 'rssSources.' + feed_src);
             feedListContainer.appendChild(feedTemp);
