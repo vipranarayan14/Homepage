@@ -20,6 +20,7 @@
     
   "permissions": [
     "tabs",
-    "http://www.thehindu.com/*"
+    "http://www.thehindu.com/*",
+    "http://www.popsci.com/"
   ]
 }
