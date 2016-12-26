@@ -29,7 +29,7 @@ var Rss = {
             if (this.readyState == 4 && this.status == 200) {
 
                 console.info("Got Feeds.");
-                Rss.update(srcUrl, this.responseXML, ele);
+                Rss.update(srcUrl, this.responseText, ele);
             }
         }
 
@@ -105,9 +105,10 @@ var Rss = {
 
         function parseXMLtoJSON(xmlRaw) {
 
-            var xmlDoc = xmlRaw;
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(xmlRaw, "text/xml");
 
-            if (xmlDoc !== null) {
+            if (xmlDoc.querySelector("parsererror") === null) {
 
                 var x2js = new X2JS();
                 var jsonObj = x2js.xml2json(xmlDoc);
