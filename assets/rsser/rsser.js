@@ -1,5 +1,27 @@
 var Rss = {
 
+    init: function () {
+        var feedListContainer = document.querySelector('#rss-feeds-container');
+
+        for (feed_src in rssSources) {
+
+            var feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
+            feedTemp.querySelector('.rssReloader').setAttribute('source', 'rssSources.' + feed_src);
+            feedTemp.querySelector('.rssShow').setAttribute('source', 'rssSources.' + feed_src);
+            feedListContainer.appendChild(feedTemp);
+        };
+
+        var rssReloaders = document.querySelectorAll('.rssReloader'), i;
+
+        for (i = 0; i < rssReloaders.length; ++i) {
+            rssReloaders[i].addEventListener('click', function (e) {
+                Rss.reload(e.target.getAttribute("source"));
+            });
+        }
+
+        Rss.load();
+    },
+
     getFeeds: function (srcUrl, ele) {
         var xhttp = new XMLHttpRequest();
 
@@ -67,6 +89,7 @@ var Rss = {
 
         var rlTarget = rssSources[trgt.split('.')[1]];
         localStorage.removeItem(rlTarget);
+        console.log("Reloaded");
         Rss.load();
     },
 
@@ -111,9 +134,9 @@ var Rss = {
 
             for (var i = 0; i < feedChannel.item.length; i++) {
 
-                feedItems += ('<h4 class="feed-item-title">' 
-                          + '<a href="' + feedChannel.item[i].link + '">'
-                          + feedChannel.item[i].title + '</a></h4>');
+                feedItems += ('<h4 class="feed-item-title">'
+                    + '<a href="' + feedChannel.item[i].link + '">'
+                    + feedChannel.item[i].title + '</a></h4>');
 
                 feedItems += '<span class="feed-item-date">' + dater.format(feedChannel.item[i].pubDate) + '</span>';
 
