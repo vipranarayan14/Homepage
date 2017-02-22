@@ -21,6 +21,6 @@
   "permissions": [
     "tabs",
     "http://www.thehindu.com/*",
-    "http://www.popsci.com/"
+    "http://science.sciencemag.org/*"
   ]
 }
