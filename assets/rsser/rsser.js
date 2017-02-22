@@ -116,6 +116,7 @@ var Rss = {
                 return jsonObj;
 
             } else {
+                console.log(xmlDoc);
                 return null;
             }
         }
@@ -124,7 +125,7 @@ var Rss = {
 
         feedObj = parseXMLtoJSON(xml);
 
-        if (feedObj !== null) {
+        if (feedObj !== null && feedObj.rss) {
 
             feedChannel = feedObj.rss.channel;
 
@@ -147,7 +148,11 @@ var Rss = {
             }
 
             HTMLDoc = feedTitle + feedItems;
-        } else {
+        } else if (feedObj.RDF){
+            console.log("This is RDF");
+
+        } 
+        else {
 
             var msg = "The provided URL does not contain a feed!";
 
