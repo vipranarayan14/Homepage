@@ -60,14 +60,11 @@ var Rss = {
 
             var lsItem = localStorage.getItem(srcUrl);
 
-            var minutesNow = new Date().getMinutes();
+            var minutesNow = (new Date()).getMinutes() || 60;
 
-            Number.prototype.between = function (a, b, inclusive = true) {
-                var min = Math.min(a, b),
-                    max = Math.max(a, b);
+            var lastUpateAtMins = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
 
-                return inclusive ? this >= min && this <= max : this > min && this < max;
-            }
+            var timeLeft = minutesNow - lastUpateAtMins;
 
             if (lsItem !== null) {
 
@@ -78,7 +75,7 @@ var Rss = {
                 Rss.getFeeds(srcUrl, eles[i]);
             }
 
-            if (minutesNow.between(0, 5) || minutesNow.between(30, 35)) {
+            if (timeLeft >= 10 || timeLeft <= 0) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
             }
@@ -98,6 +95,7 @@ var Rss = {
 
         var rssFeed = Rss.makeHTML(feed);
         localStorage.setItem(srcUrl, rssFeed);
+        localStorage.setItem("lastUpdateAt",(new Date()).getMinutes());
         ele.innerHTML = rssFeed;
 
     },
