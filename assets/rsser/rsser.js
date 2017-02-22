@@ -75,7 +75,7 @@ var Rss = {
                 Rss.getFeeds(srcUrl, eles[i]);
             }
 
-            if (timeLeft >= 10 || timeLeft <= 0) {
+            if (timeLeft >= 10 || timeLeft < 0) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
             }
