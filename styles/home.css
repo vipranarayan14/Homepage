@@ -13,12 +13,13 @@
     text-decoration: none;
 }
 
-
 .rssShow .feed-item-date {
     color: lightslategray;
     font-size: 12px;
 }
+
 span.rssReloader {
+    padding: 0 7px 0 7px;
     cursor: pointer;
 }
 
