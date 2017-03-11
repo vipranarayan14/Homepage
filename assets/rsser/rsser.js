@@ -20,7 +20,7 @@ var Rss = {
             });
         }
 
-        Rss.load();
+        return Rss.load();
     },
 
     getFeeds: function (srcUrl, ele) {
@@ -62,24 +62,31 @@ var Rss = {
 
             var timeLeft = minutesNow - lastUpateAtMins;
 
+            var status;
+
             if (lsItem !== null) {
 
                 eles[i].innerHTML = lsItem;
+                status = "Loaded feeds from Local Storage.";
 
             } else {
 
                 Rss.getFeeds(srcUrl, eles[i]);
+                status = "Downloading feeds.";
             }
 
             if ((timeLeft >= 10 || timeLeft < 0)) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
+                status = "Downloading feeds.";
             }
              else if (!navigator.onLine){
 
-                Rss.logError("The App is Offline");
+                Rss.logError("The App is Offline.");
+                status = "The App is Offline.";
             }
         }
+        return status;
 
     },
 
