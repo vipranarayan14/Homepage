@@ -6,9 +6,18 @@ var Rss = {
         for (feed_src in rssSources) {
 
             var feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
-            feedTemp.querySelector('.rssChannelTitle').innerHTML = feed_src;
-            feedTemp.querySelector('.rssReloader').setAttribute('source', 'rssSources.' + feed_src);
-            feedTemp.querySelector('.rssShow').setAttribute('source', 'rssSources.' + feed_src);
+            var rssChannelTitle = feedTemp.querySelector('.rssChannelTitle');
+            var rssReloader = feedTemp.querySelector('.rssReloader');
+            var rssShow = feedTemp.querySelector('.rssShow');
+            if (rssChannelTitle) {
+                rssChannelTitle.innerHTML = feed_src
+            };
+            if (rssReloader) {
+                rssReloader.setAttribute('source', 'rssSources.' + feed_src);
+            }
+            if (rssShow) {
+                rssShow.setAttribute('source', 'rssSources.' + feed_src);
+            }
             feedListContainer.appendChild(feedTemp);
         };
 
@@ -20,7 +29,7 @@ var Rss = {
             });
         }
 
-        return Rss.load();
+        Rss.load();
     },
 
     getFeeds: function (srcUrl, ele) {
@@ -57,12 +66,10 @@ var Rss = {
             var lsItem = localStorage.getItem(srcUrl);
 
             var minutesNow = (new Date()).getMinutes() || 60;
-
             var lastUpateAtMins = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
-
             var timeLeft = minutesNow - lastUpateAtMins;
 
-            var status;
+            var status = "Hi";
 
             if (lsItem !== null) {
 
@@ -80,13 +87,13 @@ var Rss = {
                 Rss.getFeeds(srcUrl, eles[i]);
                 status = "Downloading feeds.";
             }
-             else if (!navigator.onLine){
+            else if (!navigator.onLine) {
 
                 Rss.logError("The App is Offline.");
                 status = "The App is Offline.";
             }
         }
-        return status;
+        Rss.showNotification(status);
 
     },
 
@@ -94,8 +101,8 @@ var Rss = {
 
         var rlTarget = rssSources[trgt.split('.')[1]];
         localStorage.removeItem(rlTarget);
-        console.log("Reloaded");
         Rss.load();
+        Rss.showNotification("Reloaded feed: " + trgt.split('.')[1]);
     },
 
     update: function (srcUrl, feed, ele) {
@@ -166,6 +173,14 @@ var Rss = {
         }
 
         return HTMLDoc;
+    },
+
+    showNotification: function (message){
+        var rssNotifier = document.querySelector('.rssNotifier');
+        if (rssNotifier) {
+            var event = new CustomEvent('RssNotification', { 'detail': message });
+            document.dispatchEvent(event);
+        }
     },
 
     logError: function (message) {
