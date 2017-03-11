@@ -37,16 +37,12 @@ var Rss = {
         xhttp.addEventListener("error", function () {
             var msg = "Feeds fetching failed!";
 
-            console.warn(msg);
-            ele.innerHTML =
-                '<center><p style="font-size:20px; color:red">'
-                + msg
-                + '</p></center>';
+            Rss.logError(msg);
+            ele.innerHTML = Rss.formatAsError(msg);
         });
 
         xhttp.open("GET", srcUrl, true);
         xhttp.send();
-
     },
 
     load: function () {
@@ -75,9 +71,13 @@ var Rss = {
                 Rss.getFeeds(srcUrl, eles[i]);
             }
 
-            if (timeLeft >= 10 || timeLeft < 0) {
+            if ((timeLeft >= 10 || timeLeft < 0)) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
+            }
+             else if (!navigator.onLine){
+
+                Rss.logError("The App is Offline");
             }
         }
 
@@ -95,9 +95,8 @@ var Rss = {
 
         var rssFeed = Rss.makeHTML(feed);
         localStorage.setItem(srcUrl, rssFeed);
-        localStorage.setItem("lastUpdateAt",(new Date()).getMinutes());
+        localStorage.setItem("lastUpdateAt", (new Date()).getMinutes());
         ele.innerHTML = rssFeed;
-
     },
 
     makeHTML: function (xml) {
@@ -114,6 +113,7 @@ var Rss = {
                 return jsonObj;
 
             } else {
+
                 console.log(xmlDoc);
                 return null;
             }
@@ -146,21 +146,28 @@ var Rss = {
             }
 
             HTMLDoc = feedTitle + feedItems;
-        } else if (feedObj.RDF){
+        } else if (feedObj.RDF) {
+
             console.log("This is RDF");
 
-        } 
+        }
         else {
 
             var msg = "The provided URL does not contain a feed!";
-
-            console.log("%c" + msg, "color:red;");
-
-            HTMLDoc = '<center><p style="font-size:20px; color:red">'
-                + msg
-                + '</p></center>';
+            Rss.logError(msg);
+            HTMLDoc = Rss.formatAsError(msg);
         }
 
         return HTMLDoc;
+    },
+
+    logError: function (message) {
+
+        console.log("%c" + message, "color:red;");
+    },
+
+    formatAsError: function (message) {
+
+        return '<center><p style="font-size:20px; color:red">' + message + '</p></center>';
     }
 }
