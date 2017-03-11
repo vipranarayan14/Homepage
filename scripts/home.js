@@ -1,6 +1,18 @@
 var linkA = document.querySelector("#linkApps");
 var linkE = document.querySelector("#linkExts");
 
+function updateOnlineStatus()
+{
+    Rss.showNotification("The App is online");
+}
+
+function updateOfflineStatus()
+{
+    Rss.showNotification("The App is offline");
+}
+
+window.addEventListener('online',  updateOnlineStatus);
+window.addEventListener('offline', updateOfflineStatus);
 
 document.querySelector("#searchInput").addEventListener('keydown', function (e) {
   if (e.keyCode === 13 && this.value !== "") {

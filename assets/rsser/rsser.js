@@ -175,7 +175,7 @@ var Rss = {
         return HTMLDoc;
     },
 
-    showNotification: function (message){
+    showNotification: function (message) {
         var rssNotifier = document.querySelector('.rssNotifier');
         if (rssNotifier) {
             var event = new CustomEvent('RssNotification', { 'detail': message });
