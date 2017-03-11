@@ -21,6 +21,11 @@ function searchGoogle(searchQuery) {
   chrome.tabs.update({ url: serviceCall });
 }
 
+document.addEventListener('RssNotification', function (e) {
+
+  document.querySelector(".rss-alert > p").innerHTML = e.detail;
+});
+
 Rss.init();
 
 console.log("Hello!!");
