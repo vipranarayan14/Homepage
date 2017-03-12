@@ -1,17 +1,15 @@
 var linkA = document.querySelector("#linkApps");
 var linkE = document.querySelector("#linkExts");
 
-function updateOnlineStatus()
-{
-    Rss.showNotification("The App is online");
+function updateOnlineStatus() {
+  Rss.showNotification("The App is online");
 }
 
-function updateOfflineStatus()
-{
-    Rss.showNotification("The App is offline");
+function updateOfflineStatus() {
+  Rss.showNotification("The App is offline");
 }
 
-window.addEventListener('online',  updateOnlineStatus);
+window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOfflineStatus);
 
 document.querySelector("#searchInput").addEventListener('keydown', function (e) {
@@ -35,7 +33,21 @@ function searchGoogle(searchQuery) {
 
 document.addEventListener('RssNotification', function (e) {
 
-  document.querySelector(".rss-alert > p").innerHTML = e.detail;
+  var rssNotificationsContainer = document.querySelector('#rss-notifications-container');
+
+  if (rssNotificationsContainer) {
+
+    var rssNotifierTemp = document.querySelector('#rss-notifier-template').content.cloneNode(true);
+    var rssNotification = rssNotifierTemp.querySelector('.rssNotification');
+    var rssNotificationCloseBtn = rssNotifierTemp.querySelector('alert-close-btn');
+
+    rssNotification.innerHTML = e.detail;
+    // rssNotificationCloseBtn.addEventListener('click', function (e) {
+    //   e.target.parent.display = 'none';
+    // });
+  }
+  rssNotificationsContainer.appendChild(rssNotifierTemp);
+
 });
 
 Rss.init();

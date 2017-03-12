@@ -23,6 +23,12 @@
         </div>
     </template>
 
+    <template id="rss-notifier-template">
+        <div class="rss-alert w3-panel w3-margin-right w3-lime w3-card-2">
+            <p class="rssNotification w3-margin-right" style="display: inline-block"></p><span class="alert-close-btn">X</span>
+        </div>
+    </template>
+
 </head>
 
 <body class="w3-theme-l3">
@@ -49,11 +55,7 @@
 
     <main id="rss-feeds-container" class="w3-row-padding"></main>
 
-    <aside>
-        <div class="rss-alert w3-panel w3-display-topright w3-margin-right w3-lime w3-card-2">
-            <p class="rssNotifier"></p>
-        </div>
-    </aside>
+    <aside id="rss-notifications-container" class="w3-display-topright"></aside>
 
     <script src="scripts/rss.sources.js"></script>
     <script src="assets/rsser/rsser.js"></script>
