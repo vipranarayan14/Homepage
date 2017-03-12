@@ -36,13 +36,13 @@ var Rss = {
         }
     },
 
-    getFeeds: function (srcUrl, ele) {
+    getFeeds: function (srcUrlTitle, srcUrl, ele) {
         var xhttp = new XMLHttpRequest();
 
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
 
-                console.info("Got Feeds.");
+                Rss.showNotification("Got Feeds for " + srcUrlTitle);
                 Rss.update(srcUrl, this.responseText, ele);
             }
         }
@@ -65,7 +65,8 @@ var Rss = {
         for (var i = 0; i < eles.length; i++) {
 
             var srcAttrVal = eles[i].getAttribute("source");
-            var srcUrl = rssSources[srcAttrVal.split('.')[1]];
+            var srcUrlTitle = srcAttrVal.split('.')[1]
+            var srcUrl = rssSources[srcUrlTitle];
 
             var lsItem = localStorage.getItem(srcUrl);
 
@@ -82,13 +83,13 @@ var Rss = {
 
             } else {
 
-                Rss.getFeeds(srcUrl, eles[i]);
+                Rss.getFeeds(srcUrlTitle, srcUrl, eles[i]);
                 status = "Downloading feeds.";
             }
 
             if ((timeLeft >= 10 || timeLeft < 0) && navigator.onLine) {
 
-                Rss.getFeeds(srcUrl, eles[i]);
+                Rss.getFeeds(srcUrlTitle, srcUrl, eles[i]);
                 status = "Downloading feeds.";
             }
             else if (!navigator.onLine) {
@@ -102,10 +103,11 @@ var Rss = {
     },
 
     reload: function (trgt) {
-
-        var rlTarget = rssSources[trgt.split('.')[1]];
+        
+        var trgtName = trgt.split('.')[1];
+        var rlTarget = rssSources[trgtName];
         localStorage.removeItem(rlTarget);
-        Rss.showNotification("Reloading feed: " + trgt.split('.')[1]);
+        Rss.showNotification("Reloading feed: " + trgtName);
         Rss.load();
     },
 
@@ -172,7 +174,7 @@ var Rss = {
         else {
 
             var msg = "The provided URL does not contain a feed!";
-            Rss.logError(msg);
+            Rss.showNotification(msg);
             HTMLDoc = Rss.formatAsError(msg);
         }
 
@@ -184,6 +186,8 @@ var Rss = {
         if (rssNotifier) {
             var event = new CustomEvent('RssNotification', { 'detail': message });
             document.dispatchEvent(event);
+        } else {
+            console.log(message);
         }
     },
 
