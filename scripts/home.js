@@ -39,12 +39,12 @@ document.addEventListener('RssNotification', function (e) {
 
     var rssNotifierTemp = document.querySelector('#rss-notifier-template').content.cloneNode(true);
     var rssNotification = rssNotifierTemp.querySelector('.rssNotification');
-    var rssNotificationCloseBtn = rssNotifierTemp.querySelector('alert-close-btn');
+    var rssNotificationCloseBtn = rssNotifierTemp.querySelector('.alert-close-btn');
 
     rssNotification.innerHTML = e.detail;
-    // rssNotificationCloseBtn.addEventListener('click', function (e) {
-    //   e.target.parent.display = 'none';
-    // });
+    rssNotificationCloseBtn.addEventListener('click', function (e) {
+      e.target.parentNode.style.display = 'none';
+    });
   }
   rssNotificationsContainer.appendChild(rssNotifierTemp);
 
