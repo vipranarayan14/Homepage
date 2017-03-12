@@ -1,17 +1,29 @@
-var Rss = {
+const Rss = {
 
     init: function () {
 
-        var feedListContainer = document.querySelector('#rss-feeds-container');
+        const feedListContainer = document.querySelector('#rss-feeds-container');
 
         if (feedListContainer) {
 
-            for (feed_src in rssSources) {
+            Rss.makeFeedContainer(feedListContainer)
+                .then(Rss.registerEventListeners())
+                .then(Rss.load());
 
-                var feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
-                var rssChannelTitle = feedTemp.querySelector('.rssChannelTitle');
-                var rssReloader = feedTemp.querySelector('.rssReloader');
-                var rssShow = feedTemp.querySelector('.rssShow');
+        };
+    },
+
+    makeFeedContainer: function (feedListContainer) {
+
+        return new Promise(function (resolve, reject) {
+
+            for (let feed_src in rssSources) {
+
+                const feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
+                const rssChannelTitle = feedTemp.querySelector('.rssChannelTitle');
+                const rssReloader = feedTemp.querySelector('.rssReloader');
+                const rssShow = feedTemp.querySelector('.rssShow');
+
                 if (rssChannelTitle) {
                     rssChannelTitle.innerHTML = feed_src
                 };
@@ -24,22 +36,33 @@ var Rss = {
                 feedListContainer.appendChild(feedTemp);
             };
 
-            var rssReloaders = document.querySelectorAll('.rssReloader'), i;
+            resolve();
+        });
+    },
 
-            for (i = 0; i < rssReloaders.length; ++i) {
+    registerEventListeners: function () {
+
+        return new Promise(function (resolve, reject) {
+
+            const rssReloaders = document.querySelectorAll('.rssReloader');
+
+            for (let i = 0; i < rssReloaders.length; ++i) {
+
                 rssReloaders[i].addEventListener('click', function (e) {
+
                     Rss.reload(e.target.getAttribute("source"));
                 });
             }
 
-            Rss.load();
-        }
+            resolve();
+        });
     },
 
     getFeeds: function (srcUrlTitle, srcUrl, ele) {
-        var xhttp = new XMLHttpRequest();
+        const xhttp = new XMLHttpRequest();
 
         xhttp.onreadystatechange = function () {
+
             if (this.readyState == 4 && this.status == 200) {
 
                 Rss.showNotification("Got Feeds for " + srcUrlTitle);
@@ -48,7 +71,8 @@ var Rss = {
         }
 
         xhttp.addEventListener("error", function () {
-            var msg = "Feeds fetching failed!";
+
+            const msg = "Feeds fetching failed!";
 
             Rss.logError(msg);
             ele.innerHTML = Rss.formatAsError(msg);
@@ -60,19 +84,19 @@ var Rss = {
 
     load: function () {
 
-        var eles = document.querySelectorAll(".rssShow");
+        const eles = document.querySelectorAll(".rssShow");
 
-        for (var i = 0; i < eles.length; i++) {
+        for (let i = 0; i < eles.length; i++) {
 
-            var srcAttrVal = eles[i].getAttribute("source");
-            var srcUrlTitle = srcAttrVal.split('.')[1]
-            var srcUrl = rssSources[srcUrlTitle];
+            const srcAttrVal = eles[i].getAttribute("source");
+            const srcUrlTitle = srcAttrVal.split('.')[1]
+            const srcUrl = rssSources[srcUrlTitle];
 
-            var lsItem = localStorage.getItem(srcUrl);
+            const lsItem = localStorage.getItem(srcUrl);
 
-            var minutesNow = (new Date()).getMinutes() || 60;
-            var lastUpateAtMins = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
-            var timeLeft = minutesNow - lastUpateAtMins;
+            const minutesNow = (new Date()).getMinutes() || 60;
+            const lastUpateAtMins = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
+            const timeLeft = minutesNow - lastUpateAtMins;
 
             var status = "Hi";
 
@@ -93,7 +117,7 @@ var Rss = {
                 status = "Downloading feeds.";
             }
             else if (!navigator.onLine) {
-                var msg = "Failed to Download feeds. The App is Offline.";
+                const msg = "Failed to Download feeds. The App is Offline.";
                 Rss.logError(msg);
                 status = msg;
             }
@@ -103,9 +127,9 @@ var Rss = {
     },
 
     reload: function (trgt) {
-        
-        var trgtName = trgt.split('.')[1];
-        var rlTarget = rssSources[trgtName];
+
+        const trgtName = trgt.split('.')[1];
+        const rlTarget = rssSources[trgtName];
         localStorage.removeItem(rlTarget);
         Rss.showNotification("Reloading feed: " + trgtName);
         Rss.load();
@@ -113,7 +137,7 @@ var Rss = {
 
     update: function (srcUrl, feed, ele) {
 
-        var rssFeed = Rss.makeHTML(feed);
+        const rssFeed = Rss.makeHTML(feed);
         localStorage.setItem(srcUrl, rssFeed);
         localStorage.setItem("lastUpdateAt", (new Date()).getMinutes());
         ele.innerHTML = rssFeed;
@@ -123,13 +147,13 @@ var Rss = {
 
         function parseXMLtoJSON(xmlRaw) {
 
-            var parser = new DOMParser();
-            var xmlDoc = parser.parseFromString(xmlRaw, "text/xml");
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlRaw, "text/xml");
 
             if (xmlDoc.querySelector("parsererror") === null) {
 
-                var x2js = new X2JS();
-                var jsonObj = x2js.xml2json(xmlDoc);
+                const x2js = new X2JS();
+                const jsonObj = x2js.xml2json(xmlDoc);
                 return jsonObj;
 
             } else {
@@ -153,7 +177,7 @@ var Rss = {
 
             feedItems = "";
 
-            for (var i = 0; i < feedChannel.item.length; i++) {
+            for (let i in feedChannel.item) {
 
                 feedItems += ('<h4 class="feed-item-title">'
                     + '<a href="' + feedChannel.item[i].link + '">'
@@ -182,9 +206,9 @@ var Rss = {
     },
 
     showNotification: function (message) {
-        var rssNotifier = document.querySelector('#rss-notifications-container');
+        const rssNotifier = document.querySelector('#rss-notifications-container');
         if (rssNotifier) {
-            var event = new CustomEvent('RssNotification', { 'detail': message });
+            const event = new CustomEvent('RssNotification', { 'detail': message });
             document.dispatchEvent(event);
         } else {
             console.log(message);
