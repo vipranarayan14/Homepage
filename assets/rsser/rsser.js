@@ -1,35 +1,39 @@
 var Rss = {
 
     init: function () {
+
         var feedListContainer = document.querySelector('#rss-feeds-container');
 
-        for (feed_src in rssSources) {
+        if (feedListContainer) {
 
-            var feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
-            var rssChannelTitle = feedTemp.querySelector('.rssChannelTitle');
-            var rssReloader = feedTemp.querySelector('.rssReloader');
-            var rssShow = feedTemp.querySelector('.rssShow');
-            if (rssChannelTitle) {
-                rssChannelTitle.innerHTML = feed_src
+            for (feed_src in rssSources) {
+
+                var feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
+                var rssChannelTitle = feedTemp.querySelector('.rssChannelTitle');
+                var rssReloader = feedTemp.querySelector('.rssReloader');
+                var rssShow = feedTemp.querySelector('.rssShow');
+                if (rssChannelTitle) {
+                    rssChannelTitle.innerHTML = feed_src
+                };
+                if (rssReloader) {
+                    rssReloader.setAttribute('source', 'rssSources.' + feed_src);
+                }
+                if (rssShow) {
+                    rssShow.setAttribute('source', 'rssSources.' + feed_src);
+                }
+                feedListContainer.appendChild(feedTemp);
             };
-            if (rssReloader) {
-                rssReloader.setAttribute('source', 'rssSources.' + feed_src);
-            }
-            if (rssShow) {
-                rssShow.setAttribute('source', 'rssSources.' + feed_src);
-            }
-            feedListContainer.appendChild(feedTemp);
-        };
 
-        var rssReloaders = document.querySelectorAll('.rssReloader'), i;
+            var rssReloaders = document.querySelectorAll('.rssReloader'), i;
 
-        for (i = 0; i < rssReloaders.length; ++i) {
-            rssReloaders[i].addEventListener('click', function (e) {
-                Rss.reload(e.target.getAttribute("source"));
-            });
+            for (i = 0; i < rssReloaders.length; ++i) {
+                rssReloaders[i].addEventListener('click', function (e) {
+                    Rss.reload(e.target.getAttribute("source"));
+                });
+            }
+
+            Rss.load();
         }
-
-        Rss.load();
     },
 
     getFeeds: function (srcUrl, ele) {
@@ -88,9 +92,9 @@ var Rss = {
                 status = "Downloading feeds.";
             }
             else if (!navigator.onLine) {
-
-                Rss.logError("The App is Offline.");
-                status = "The App is Offline.";
+                var msg = "Failed to Download feeds. The App is Offline.";
+                Rss.logError(msg);
+                status = msg;
             }
         }
         Rss.showNotification(status);
@@ -101,8 +105,8 @@ var Rss = {
 
         var rlTarget = rssSources[trgt.split('.')[1]];
         localStorage.removeItem(rlTarget);
+        Rss.showNotification("Reloading feed: " + trgt.split('.')[1]);
         Rss.load();
-        Rss.showNotification("Reloaded feed: " + trgt.split('.')[1]);
     },
 
     update: function (srcUrl, feed, ele) {
@@ -176,7 +180,7 @@ var Rss = {
     },
 
     showNotification: function (message) {
-        var rssNotifier = document.querySelector('.rssNotifier');
+        var rssNotifier = document.querySelector('#rss-notifications-container');
         if (rssNotifier) {
             var event = new CustomEvent('RssNotification', { 'detail': message });
             document.dispatchEvent(event);
