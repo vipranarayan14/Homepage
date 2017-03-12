@@ -82,7 +82,7 @@ var Rss = {
                 status = "Downloading feeds.";
             }
 
-            if ((timeLeft >= 10 || timeLeft < 0)) {
+            if ((timeLeft >= 10 || timeLeft < 0) && navigator.onLine) {
 
                 Rss.getFeeds(srcUrl, eles[i]);
                 status = "Downloading feeds.";
