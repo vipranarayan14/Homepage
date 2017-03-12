@@ -1,56 +1,81 @@
-var linkA = document.querySelector("#linkApps");
-var linkE = document.querySelector("#linkExts");
+function startHome() {
 
-function updateOnlineStatus() {
-  Rss.showNotification("The App is online");
-}
+  const userName = localStorage.getItem('userName');
 
-function updateOfflineStatus() {
-  Rss.showNotification("The App is offline");
-}
+  if (!userName || userName === "null") {
 
-window.addEventListener('online', updateOnlineStatus);
-window.addEventListener('offline', updateOfflineStatus);
+    const name = prompt("Please Enter your name:", "");
 
-document.querySelector("#searchInput").addEventListener('keydown', function (e) {
-  if (e.keyCode === 13 && this.value !== "") {
-    searchGoogle(this.value);
-  }
-});
+    localStorage.setItem('userName', name);
 
-linkA.addEventListener('click', function () {
-  chrome.tabs.update({ url: "chrome://apps" });
-});
+    startHome();
 
-linkE.addEventListener('click', function () {
-  chrome.tabs.update({ url: "chrome://extensions" });
-});
+  } else {
 
-function searchGoogle(searchQuery) {
-  var serviceCall = 'http://www.google.com/search?q=' + searchQuery;
-  chrome.tabs.update({ url: serviceCall });
-}
+    userName = localStorage.getItem('userName');
 
-document.addEventListener('RssNotification', function (e) {
+    document.getElementById("userGreeting").innerHTML = "Hello, " + userName + "!";
 
-  var rssNotificationsContainer = document.querySelector('#rss-notifications-container');
+    const linkA = document.querySelector("#linkApps");
+    const linkE = document.querySelector("#linkExts");
 
-  if (rssNotificationsContainer) {
+    function updateOnlineStatus() {
+      Rss.showNotification("The App is online");
+    }
 
-    var rssNotifierTemp = document.querySelector('#rss-notifier-template').content.cloneNode(true);
-    var rssNotification = rssNotifierTemp.querySelector('.rssNotification');
-    var rssNotificationCloseBtn = rssNotifierTemp.querySelector('.alert-close-btn');
+    function updateOfflineStatus() {
+      Rss.showNotification("The App is offline");
+    }
 
-    rssNotification.innerHTML = e.detail;
-    rssNotificationCloseBtn.addEventListener('click', function (e) {
-      e.target.parentNode.style.display = 'none';
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOfflineStatus);
+
+    document.querySelector("#searchInput").addEventListener('keydown', function (e) {
+
+      if (e.keyCode === 13 && this.value !== "") {
+        searchGoogle(this.value);
+      }
     });
+
+    linkA.addEventListener('click', function () {
+
+      chrome.tabs.update({ url: "chrome://apps" });
+    });
+
+    linkE.addEventListener('click', function () {
+
+      chrome.tabs.update({ url: "chrome://extensions" });
+    });
+
+    function searchGoogle(searchQuery) {
+      
+      var serviceCall = 'http://www.google.com/search?q=' + searchQuery;
+      chrome.tabs.update({ url: serviceCall });
+    }
+
+    document.addEventListener('RssNotification', function (e) {
+
+      var rssNotificationsContainer = document.querySelector('#rss-notifications-container');
+
+      if (rssNotificationsContainer) {
+
+        var rssNotifierTemp = document.querySelector('#rss-notifier-template').content.cloneNode(true);
+        var rssNotification = rssNotifierTemp.querySelector('.rssNotification');
+        var rssNotificationCloseBtn = rssNotifierTemp.querySelector('.alert-close-btn');
+
+        rssNotification.innerHTML = e.detail;
+        rssNotificationCloseBtn.addEventListener('click', function (e) {
+          e.target.parentNode.style.display = 'none';
+        });
+      }
+      rssNotificationsContainer.appendChild(rssNotifierTemp);
+
+    });
+
+    Rss.init();
+
+    console.log("Hello!!");
   }
-  rssNotificationsContainer.appendChild(rssNotifierTemp);
 
-});
-
-Rss.init();
-
-console.log("Hello!!");
-
+}
+startHome();
