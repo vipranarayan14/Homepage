@@ -12,8 +12,6 @@ function startHome() {
 
   } else {
 
-    userName = localStorage.getItem('userName');
-
     document.getElementById("userGreeting").innerHTML = "Hello, " + userName + "!";
 
     const linkA = document.querySelector("#linkApps");
