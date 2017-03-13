@@ -1,6 +1,25 @@
 const Rss = {
 
-    init: function () {
+    init: function (options) {
+
+        if (typeof (options) == 'object') {
+
+            if (options.notify === undefined) {
+
+                Rss.isShowNotification = Rss.isShowNotification;
+            } else {
+
+                Rss.isShowNotification = options.notify;
+            }
+
+            if (options.logConsole === undefined) {
+
+                Rss.islogConsole = Rss.islogConsole;
+            } else {
+
+                Rss.islogConsole = options.logConsole;
+            }
+        }
 
         const feedListContainer = document.querySelector('#rss-feeds-container');
 
@@ -74,7 +93,7 @@ const Rss = {
 
             const msg = "Feeds fetching failed!";
 
-            Rss.logError(msg);
+            Rss.logConsole(msg, "error");
             ele.innerHTML = Rss.formatAsError(msg);
         });
 
@@ -118,7 +137,7 @@ const Rss = {
             }
             else if (!navigator.onLine) {
                 const msg = "Failed to download feeds. The App is Offline.";
-                Rss.logError(msg);
+                Rss.logConsole(msg, "error");
                 status = msg;
             }
         }
@@ -137,7 +156,7 @@ const Rss = {
             Rss.load();
         } else {
 
-            return Rss.showNotification("Failed to reload feed. The App is Offline.");            
+            return Rss.showNotification("Failed to reload feed. The App is Offline.");
         }
     },
 
@@ -164,7 +183,7 @@ const Rss = {
 
             } else {
 
-                console.log(xmlDoc);
+                Rss.logConsole(xmlDoc);
                 return null;
             }
         }
@@ -198,7 +217,7 @@ const Rss = {
             HTMLDoc = feedTitle + feedItems;
         } else if (feedObj.RDF) {
 
-            console.log("This is RDF");
+            Rss.logConsole("This is RDF");
 
         }
         else {
@@ -211,19 +230,40 @@ const Rss = {
         return HTMLDoc;
     },
 
+    isShowNotification: true,
+
     showNotification: function (message) {
-        const rssNotifier = document.querySelector('#rss-notifications-container');
-        if (rssNotifier) {
-            const event = new CustomEvent('RssNotification', { 'detail': message });
-            document.dispatchEvent(event);
-        } else {
-            console.log(message);
+
+        if (Rss.isShowNotification) {
+
+            const rssNotifier = document.querySelector('#rss-notifications-container');
+
+            if (rssNotifier) {
+                const event = new CustomEvent('RssNotification', { 'detail': message });
+                document.dispatchEvent(event);
+            } else {
+                Rss.logConsole(message, "info");
+            }
         }
     },
 
-    logError: function (message) {
+    islogConsole: false,
 
-        console.log("%c" + message, "color:red;");
+    logConsole: function (message, type) {
+
+        if (Rss.islogConsole) {
+
+            if (!type) {
+
+                console.log(message);
+            } else if (type === "error") {
+
+                console.log("%c" + message, "color:red;");
+            } else if ( type === "info") {
+
+                console.log("%c" + message, "color:blue;");
+            }
+        }
     },
 
     formatAsError: function (message) {

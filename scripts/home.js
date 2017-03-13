@@ -46,7 +46,7 @@ function startHome() {
     });
 
     function searchGoogle(searchQuery) {
-      
+
       var serviceCall = 'http://www.google.com/search?q=' + searchQuery;
       chrome.tabs.update({ url: serviceCall });
     }
@@ -70,10 +70,12 @@ function startHome() {
 
     });
 
-    Rss.init();
+    Rss.init({ notify: true, logConsole: false });
 
-    console.log("Hello!!");
   }
 
 }
+
 startHome();
+
+console.log("Hello!!");
