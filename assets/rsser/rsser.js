@@ -117,7 +117,7 @@ const Rss = {
                 status = "Downloading feeds.";
             }
             else if (!navigator.onLine) {
-                const msg = "Failed to Download feeds. The App is Offline.";
+                const msg = "Failed to download feeds. The App is Offline.";
                 Rss.logError(msg);
                 status = msg;
             }
@@ -128,11 +128,17 @@ const Rss = {
 
     reload: function (trgt) {
 
-        const trgtName = trgt.split('.')[1];
-        const rlTarget = rssSources[trgtName];
-        localStorage.removeItem(rlTarget);
-        Rss.showNotification("Reloading feed: " + trgtName);
-        Rss.load();
+        if (navigator.onLine) {
+
+            const trgtName = trgt.split('.')[1];
+            const rlTarget = rssSources[trgtName];
+            localStorage.removeItem(rlTarget);
+            Rss.showNotification("Reloading feed: " + trgtName);
+            Rss.load();
+        } else {
+
+            return Rss.showNotification("Failed to reload feed. The App is Offline.");            
+        }
     },
 
     update: function (srcUrl, feed, ele) {
