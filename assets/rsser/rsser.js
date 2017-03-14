@@ -34,7 +34,7 @@ const Rss = {
 
     makeFeedContainer: function (feedListContainer) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise( (resolve, reject) => {
 
             for (let feed_src in rssSources) {
 
@@ -61,24 +61,24 @@ const Rss = {
 
     registerEventListeners: function () {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise( (resolve, reject) => {
 
-            window.addEventListener('online', function () {
+            window.addEventListener('online', () => {
 
-                Rss.showNotification("The App is online");
+                Rss.showNotification("The App is online.");
                 Rss.load();
             });
-            
-            window.addEventListener('offline', function updateOfflineStatus() {
 
-                Rss.showNotification("The App is offline");
+            window.addEventListener('offline', () => {
+
+                Rss.showNotification("The App is offline.");
             });
 
             const rssReloaders = document.querySelectorAll('.rssReloader');
 
             for (let i = 0; i < rssReloaders.length; ++i) {
 
-                rssReloaders[i].addEventListener('click', function (e) {
+                rssReloaders[i].addEventListener('click', (e) => {
 
                     Rss.reload(e.target.getAttribute("source"));
                 });
@@ -100,7 +100,7 @@ const Rss = {
             }
         }
 
-        xhttp.addEventListener("error", function () {
+        xhttp.addEventListener("error", () => {
 
             const msg = "Feeds fetching failed!";
 
@@ -174,8 +174,10 @@ const Rss = {
     update: function (srcUrl, feed, ele) {
 
         const rssFeed = Rss.makeHTML(feed);
+
         localStorage.setItem(srcUrl, rssFeed);
         localStorage.setItem("lastUpdateAt", (new Date()).getMinutes());
+
         ele.innerHTML = rssFeed;
     },
 
@@ -250,9 +252,11 @@ const Rss = {
             const rssNotifier = document.querySelector('#rss-notifications-container');
 
             if (rssNotifier) {
+
                 const event = new CustomEvent('RssNotification', { 'detail': message });
                 document.dispatchEvent(event);
             } else {
+                
                 Rss.logConsole(message, "info");
             }
         }

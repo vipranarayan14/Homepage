@@ -24,12 +24,12 @@ function startHome() {
       }
     });
 
-    linkA.addEventListener('click', function () {
+    linkA.addEventListener('click', () => {
 
       chrome.tabs.update({ url: "chrome://apps" });
     });
 
-    linkE.addEventListener('click', function () {
+    linkE.addEventListener('click', () => {
 
       chrome.tabs.update({ url: "chrome://extensions" });
     });
@@ -40,7 +40,7 @@ function startHome() {
       chrome.tabs.update({ url: serviceCall });
     }
 
-    document.addEventListener('RssNotification', function (e) {
+    document.addEventListener('RssNotification', (e) => {
 
       var rssNotificationsContainer = document.querySelector('#rss-notifications-container');
 
