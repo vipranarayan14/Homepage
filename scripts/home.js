@@ -36,33 +36,39 @@ function startHome() {
 
     function searchGoogle(searchQuery) {
 
-      var serviceCall = 'http://www.google.com/search?q=' + searchQuery;
+      const serviceCall = 'http://www.google.com/search?q=' + searchQuery;
       chrome.tabs.update({ url: serviceCall });
     }
 
     document.addEventListener('RssNotification', (e) => {
 
-      var rssNotificationsContainer = document.querySelector('#rss-notifications-container');
+      const rssNotificationsContainer = document.querySelector('#rss-notifications-container');
 
       if (rssNotificationsContainer) {
 
-        var rssNotifierTemp = document.querySelector('#rss-notifier-template').content.cloneNode(true);
-        var rssNotification = rssNotifierTemp.querySelector('.rssNotification');
-        var rssNotificationCloseBtn = rssNotifierTemp.querySelector('.alert-close-btn');
+        const rssNotifier = document.createElement('DIV');
+
+        rssNotifier.innerHTML = document.querySelector('#rss-notifier-template').innerHTML;
+
+        const rssNotification = rssNotifier.querySelector('.rssNotification');
+        const rssNotificationCloseBtn = rssNotifier.querySelector('.alert-close-btn');
 
         rssNotification.innerHTML = e.detail;
-        rssNotificationCloseBtn.addEventListener('click', function (e) {
+        rssNotificationCloseBtn.addEventListener('click', (e) => {
           e.target.parentNode.style.display = 'none';
         });
-      }
-      rssNotificationsContainer.appendChild(rssNotifierTemp);
 
+        rssNotificationsContainer.appendChild(rssNotifier);
+
+        setTimeout(() => {
+          rssNotificationsContainer.removeChild(rssNotifier);
+        }, 8000);
+
+      }
     });
 
     Rss.init({ notify: true, logConsole: false });
-
   }
-
 }
 
 startHome();
