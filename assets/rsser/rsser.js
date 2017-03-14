@@ -63,6 +63,17 @@ const Rss = {
 
         return new Promise(function (resolve, reject) {
 
+            window.addEventListener('online', function () {
+
+                Rss.showNotification("The App is online");
+                Rss.load();
+            });
+            
+            window.addEventListener('offline', function updateOfflineStatus() {
+
+                Rss.showNotification("The App is offline");
+            });
+
             const rssReloaders = document.querySelectorAll('.rssReloader');
 
             for (let i = 0; i < rssReloaders.length; ++i) {
@@ -259,7 +270,7 @@ const Rss = {
             } else if (type === "error") {
 
                 console.log("%c" + message, "color:red;");
-            } else if ( type === "info") {
+            } else if (type === "info") {
 
                 console.log("%c" + message, "color:blue;");
             }
