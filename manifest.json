@@ -20,8 +20,7 @@
     
   "permissions": [
     "tabs",
-    "http://www.thehindu.com/news/*",
-    "http://science.sciencemag.org/*",
-    "https://www.eurekalert.org/rss/*"
+    "http://*/*",
+    "https://*/*"
   ]
 }
