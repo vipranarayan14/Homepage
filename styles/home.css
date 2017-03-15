@@ -1,6 +1,7 @@
 .rssShow-container {
     height: 450px;
-    overflow-x: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .rssShow .feed-item-title {
