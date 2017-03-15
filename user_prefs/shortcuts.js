@@ -1,4 +1,5 @@
 var shortcuts = {
     "Apps" : "chrome://apps",
-    "Exts" : "chrome://extensions"
+    "Exts" : "chrome://extensions",
+    "Drive" : "https://drive.google.com"
 }
