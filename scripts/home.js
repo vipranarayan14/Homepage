@@ -53,24 +53,24 @@ function startHome() {
         const rssNotification = rssNotifier.querySelector('.rssNotification');
         const rssNotificationCloseBtn = rssNotifier.querySelector('.alert-close-btn');
 
-        rssNotification.innerHTML = e.detail;
-        rssNotificationCloseBtn.addEventListener('click', (e) => {
-          e.target.parentNode.style.display = 'none';
-        });
+    initNavitems: function () {
 
-        rssNotificationsContainer.appendChild(rssNotifier);
+        const navBar = document.querySelector("#navBar");
 
-        setTimeout(() => {
-          rssNotificationsContainer.removeChild(rssNotifier);
-        }, 8000);
+        if (navBar && typeof (shortcuts) == 'object') {
 
-      }
-    });
+            for (let shortcut in shortcuts) {
 
-    Rss.init({ notify: true, logConsole: false });
-  }
+                const navItem = document.querySelector('#navItemTemp').content.cloneNode(true);
+                const link = navItem.querySelector('a');
+                link.innerHTML = shortcut;
+                link.addEventListener('click', () => {
+
+                    chrome.tabs.update({ url: shortcuts[shortcut] });
+                });
+
+                navBar.appendChild(navItem);
+            };
+        }
+    }
 }
-
-startHome();
-
-console.log("Hello!!");
