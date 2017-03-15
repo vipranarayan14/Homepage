@@ -1,57 +1,44 @@
-function startHome() {
+const Home = {
 
-  const userName = localStorage.getItem('userName');
+    registerEventListeners: function () {
 
-  if (!userName || userName === "null") {
+        document.querySelector("#searchInput").addEventListener('keydown', function (e) {
 
-    const name = prompt("Please Enter your name:", "");
+            if (e.keyCode === 13 && this.value !== "") {
 
-    localStorage.setItem('userName', name);
+                const serviceCall = 'http://www.google.com/search?q=' + this.value;
+                chrome.tabs.update({ url: serviceCall });
+            }
+        });
 
-    startHome();
+        document.addEventListener('RssNotification', (e) => {
 
-  } else {
+            const rssNotificationsContainer = document.querySelector('#rss-notifications-container');
 
-    document.getElementById("userGreeting").innerHTML = "Hello, " + userName + "!";
+            if (rssNotificationsContainer) {
 
-    const linkA = document.querySelector("#linkApps");
-    const linkE = document.querySelector("#linkExts");
+                const rssNotifier = document.createElement('DIV');
 
-    document.querySelector("#searchInput").addEventListener('keydown', function (e) {
+                rssNotifier.innerHTML = document.querySelector('#rss-notifier-template').innerHTML;
 
-      if (e.keyCode === 13 && this.value !== "") {
-        searchGoogle(this.value);
-      }
-    });
+                const rssNotification = rssNotifier.querySelector('.rssNotification');
+                const rssNotificationCloseBtn = rssNotifier.querySelector('.alert-close-btn');
 
-    linkA.addEventListener('click', () => {
+                rssNotification.innerHTML = e.detail;
+                rssNotificationCloseBtn.addEventListener('click', (e) => {
+                    e.target.parentNode.style.display = 'none';
+                });
 
-      chrome.tabs.update({ url: "chrome://apps" });
-    });
+                rssNotificationsContainer.appendChild(rssNotifier);
 
-    linkE.addEventListener('click', () => {
+                setTimeout(() => {
+                    rssNotificationsContainer.removeChild(rssNotifier);
+                }, 8000);
 
-      chrome.tabs.update({ url: "chrome://extensions" });
-    });
+            }
+        });
 
-    function searchGoogle(searchQuery) {
-
-      const serviceCall = 'http://www.google.com/search?q=' + searchQuery;
-      chrome.tabs.update({ url: serviceCall });
-    }
-
-    document.addEventListener('RssNotification', (e) => {
-
-      const rssNotificationsContainer = document.querySelector('#rss-notifications-container');
-
-      if (rssNotificationsContainer) {
-
-        const rssNotifier = document.createElement('DIV');
-
-        rssNotifier.innerHTML = document.querySelector('#rss-notifier-template').innerHTML;
-
-        const rssNotification = rssNotifier.querySelector('.rssNotification');
-        const rssNotificationCloseBtn = rssNotifier.querySelector('.alert-close-btn');
+    },
 
     initNavitems: function () {
 
