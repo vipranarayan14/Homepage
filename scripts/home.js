@@ -40,6 +40,11 @@ const Home = {
 
     },
 
+    initUserName: function (userName) {
+        
+        document.getElementById("userGreeting").innerHTML = "Hello, " + userName + "!";
+    },
+
     initNavitems: function () {
 
         const navBar = document.querySelector("#navBar");

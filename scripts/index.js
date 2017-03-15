@@ -12,7 +12,7 @@ function startHome() {
 
   } else {
 
-    document.getElementById("userGreeting").innerHTML = "Hello, " + userName + "!";
+    Home.initUserName(userName);
 
     Home.initNavitems();
 
