@@ -1,69 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 
 <head>
-    <title>Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="../assets/w3/w3.css" type="text/css">
-    <link rel="stylesheet" href="../assets/w3/w3-theme-amber.css" type="text/css">
-    <link rel="stylesheet" href="../styles/home.css" type="text/css">
+  <link rel="stylesheet" href="../assets/w3/w3.css">
+  <link rel="stylesheet" href="../assets/w3/w3-theme-amber.css">
+  <link rel="stylesheet" href="../styles/home.css">
 
-    <template id="navItemTemp">
-        <span class="w3-tag w3-round w3-theme w3-hover-orange">
+  <template id="navItemTemp">
+    <span class="w3-tag w3-round w3-theme w3-hover-orange">
             <a href="#">navItem</a>
         </span>
-    </template>
+  </template>
 
-    <template id="rss-feeds-template">
-        <div class="w3-third w3-section w3-animate-left">
-            <div class="w3-card-4">
-                <div class="w3-container w3-blue w3-display-top">
-                    <span class="rssChannelTitle"></span>
-                    <span class="w3-right w3-round w3-hover-indigo rssReloader">Reload</span>
-                </div>
-                <div class="w3-container w3-white rssShow-container">
-                    <div class="rssShow"></div>
-                </div>
-            </div>
+  <template id="rss-feeds-template">
+    <div class="w3-col m6 l4 w3-mobile w3-section w3-animate-left">
+      <div class="w3-card-4">
+        <div class="w3-container w3-blue w3-display-top">
+          <span class="rssChannelTitle"></span>
+          <span class="w3-right w3-round w3-hover-indigo rssReloader">Reload</span>
         </div>
-    </template>
+        <div class="w3-container w3-white rssShow-container">
+          <div class="rssShow"></div>
+        </div>
+      </div>
+    </div>
+  </template>
 
-    <template id="rss-notifier-template">
-        <div class="rss-alert w3-panel w3-margin-right w3-lime w3-card-2 w3-display-container" style="width: 315px">
-            <p class="rssNotification w3-margin-right" style="display: inline-block; word-wrap: break-word; width: 90%;"></p>
-            <span class="alert-close-btn w3-round w3-padding-tiny w3-margin-right w3-display-right w3-hover-green" style="cursor: pointer">&times;</span>
-        </div>
-    </template>
+  <template id="rss-notifier-template">
+    <div class="rss-alert w3-panel w3-margin-right w3-lime w3-card-2 w3-display-container w3-hide-small" style="width: 315px">
+      <p class="rssNotification w3-margin-right" style="display: inline-block; word-wrap: break-word; width: 90%;"></p>
+      <span class="alert-close-btn w3-round w3-padding-tiny w3-margin-right w3-display-right w3-hover-green" style="cursor: pointer">&times;</span>
+    </div>
+  </template>
 
 </head>
 
 <body class="w3-theme-l4">
-    <header class="w3-row w3-padding-8 w3-theme-l1 w3-xlarge">
-        <div class="w3-quarter">
-            <ul class="w3-navbar">
-                <h1 id="userGreeting" class="w3-xlarge" style="padding-left:8px">Hello, user!</h1>
-            </ul>
-        </div>
-        <div class="w3-half">
-            <input id="searchInput" type="search" class="w3-round w3-theme-d1 w3-border-0 w3-padding" style="width:100%" placeholder="Search Google">
-        </div>
-        <div class="w3-quarter"></div>
-    </header>
+  <header class="w3-row w3-padding-8 w3-theme-l1 w3-xlarge">
+    <div class="w3-quarter">
+      <ul class="w3-navbar">
+        <h1 id="userGreeting" class="w3-xlarge" style="padding-left:8px">Hello, user!</h1>
+      </ul>
+    </div>
+    <div class="w3-half">
+      <input id="searchInput" type="search" class="w3-round w3-theme-d1 w3-border-0 w3-padding" style="width:100%" placeholder="Search Google">
+    </div>
+    <div class="w3-quarter"></div>
+  </header>
 
-    <nav id="navBar" class="w3-container w3-padding-12 w3-theme-l2 w3-large w3-card-2"></nav>
+  <nav id="navBar" class="w3-container w3-padding-12 w3-theme-l2 w3-large w3-card-2">
+    <div id="optionsLink" class="w3-right w3-round" style="cursor: pointer">
+      <img src="../assets/images/settings.png" alt="Options" height="25px">
+    </div>
+  </nav>
 
-    <main id="rss-feeds-container" class="w3-row-padding"></main>
+  <main id="rss-feeds-container" class="w3-row-padding"></main>
 
-    <aside id="rss-notifications-container" class="w3-display-topright"></aside>
+  <aside id="rss-notifications-container" class="w3-display-topright"></aside>
 
-    <script src="../user_prefs/shortcuts.js"></script>
-    <script src="../user_prefs/rss-sources.js"></script>
-    <script src="../assets/rsser/rsser.js"></script>
-    <script src="../assets/rsser/date-formatter.js"></script>
-    <script src="../assets/rsser/xml2json.min.js"></script>
-    <script src="../scripts/home.js"></script>    
-    <script src="../scripts/index.js"></script>
+  <script src="../user_prefs/shortcuts.js"></script>
+  <script src="../user_prefs/rss-sources.js"></script>
+  <script src="../assets/rsser/rsser.js"></script>
+  <script src="../assets/rsser/date-formatter.js"></script>
+  <script src="../assets/rsser/xml2json.min.js"></script>
+  <script src="../scripts/home.js"></script>
+  <script src="../scripts/index.js"></script>
 </body>
 
 </html>

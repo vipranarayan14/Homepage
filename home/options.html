@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Homepage Settings</title>
+  <link rel="stylesheet" href="../assets/w3/w3.css">
+  <link rel="stylesheet" href="../assets/w3/w3-theme-amber.css">
+
+  <template id="rss-notifier-template">
+    <div class="rss-alert w3-panel w3-margin-right w3-lime w3-card-2 w3-display-container w3-hide-small" style="width: 315px">
+      <p class="rssNotification w3-margin-right" style="display: inline-block; word-wrap: break-word; width: 90%;"></p>
+      <span class="alert-close-btn w3-round w3-padding-tiny w3-margin-right w3-display-right w3-hover-green" style="cursor: pointer">&times;</span>
+    </div>
+  </template>
+</head>
+
+<body class="w3-theme-l4">
+
+  <header class="w3-padding-8 w3-theme-l1 w3-xlarge w3-display-container" style="height: 70px">
+    <div class="w3-round w3-theme-d3 w3-opacity w3-padding w3-display-middle">User Settings Page</div>
+    <div id="saveBtn" class="w3-round w3-theme-l3 w3-padding-tiny w3-display-right w3-margin-right" style="cursor: pointer">Save</div>
+  </header>
+
+  <aside id="notifications-container">
+    <div class="w3-panel w3-text-red w3-center"></div>
+  </aside>
+
+  <main class="w3-center">
+
+    <section>
+      <h3>Rss Feeds Preferences</h3>
+      <p>Add your favourite rss feed names along with their source urls.</p>
+      <textarea id="rssSourcesInput" style="height: 200px; width: 700px;"></textarea>
+    </section>
+
+    <div id="status"></div>
+
+    <section>
+      <h3>Navbar Shortcuts Preferences</h3>
+      <p>Add your shortcuts names along with their target urls.</p>
+      <textarea id="shortcutsInput" style="height: 200px; width: 700px;"></textarea>
+    </section>
+
+  </main>
+
+  <script src="options.js"></script>
+</body>
+
+</html>
