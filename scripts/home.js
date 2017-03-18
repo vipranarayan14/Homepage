@@ -11,6 +11,11 @@ const Home = {
             }
         });
 
+        document.querySelector("#optionsLink").addEventListener('click', function () {
+
+            chrome.runtime.openOptionsPage();
+        });
+
         document.addEventListener('RssNotification', (e) => {
 
             const rssNotificationsContainer = document.querySelector('#rss-notifications-container');
@@ -41,7 +46,7 @@ const Home = {
     },
 
     initUserName: function (userName) {
-        
+
         document.getElementById("userGreeting").innerHTML = "Hello, " + userName + "!";
     },
 
