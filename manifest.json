@@ -1,25 +1,21 @@
 {
   "manifest_version": 2,
-
   "name": "myHome",
   "description": "Customised New Tab with important links",
   "version": "1.0",
   "icons": {
-    "48": "assets/icon.png"
+    "48": "assets/images/icon.png"
   },
 
-  // "browser_action": {
-  //   "default_icon": "assets/icon.png",
-  //   "default_popup": "popup.html",
-  //   "default_title": "Quicklinks"
-  // },
-  
-    "chrome_url_overrides" : {
+  "options_page": "home/options.html",
+
+  "chrome_url_overrides": {
     "newtab": "home/index.html"
   },
-    
+
   "permissions": [
     "tabs",
+    "storage",
     "http://*/*",
     "https://*/*"
   ]
