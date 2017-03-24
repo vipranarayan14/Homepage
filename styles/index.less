@@ -1,14 +1,14 @@
 @w3: "../assets/w3";
-@import (reference) "@{w3}/w3.less";
-@import (reference) "@{w3}/w3-theme-amber.less";
+@import "@{w3}/w3.less";
+@import "@{w3}/w3-theme-amber.less";
 
 body {
     &:extend(.w3-theme-l4);
 }
 
 header {
-    /*&:extend(.w3-row-padding);*/
-    /*&:extend(.w3-padding-8);*/
+    &:extend(.w3-row-padding);
+    &:extend(.w3-padding-8);
     &:extend(.w3-theme-l1);
     &:extend(.w3-xlarge);
 
@@ -23,6 +23,13 @@ header {
 
     .searchInput {
         &:extend(.w3-half);
+
+        input {
+            &:extend(.w3-round);
+            &:extend(.w3-theme-d1);
+            &:extend(.w3-border-0);
+            &:extend(.w3-padding);
+        }
     }
 }
 
