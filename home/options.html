@@ -25,25 +25,27 @@
     <div class="w3-panel w3-text-red w3-center"></div>
   </aside>
 
-  <main class="w3-center">
+  <main style="width: 50%; margin: auto; text-align:center;">
 
     <section>
       <h3>Rss Feeds Preferences</h3>
       <p>Add your favourite rss feed names along with their source urls.</p>
-      <textarea id="rssSourcesInput" style="height: 200px; width: 700px;"></textarea>
+      <input type="text" id="rssSourcesInput" style="width: 90%">
+      <table id="rssSourcesContainer" style="margin: auto; border: 1px solid black; border-collapse: collapse;">
+        <tr w3-repeat="rssSources" style="border: 1px solid black;">
+          <td style="border: 1px solid black;">{{feedTitle}}</td>
+          <td style="border: 1px solid black;">{{feedUrl}}</td>
+          </tr>
+      </table>
     </section>
 
     <div id="status"></div>
 
-    <section>
-      <h3>Navbar Shortcuts Preferences</h3>
-      <p>Add your shortcuts names along with their target urls.</p>
-      <textarea id="shortcutsInput" style="height: 200px; width: 700px;"></textarea>
-    </section>
-
   </main>
 
-  <script src="options.js"></script>
+  <script src="../scripts/rssSources.js"></script>
+  <script src="../assets/w3/w3.js"></script>
+  <script src="../scripts/options.js"></script>
 </body>
 
 </html>

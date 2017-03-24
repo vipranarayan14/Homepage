@@ -1,0 +1,63 @@
+header .userGreeting {
+  float: left;
+  width: 100%;
+}
+header .userGreeting {
+  width: 99.99999%;
+}
+@media only screen and (min-width: 601px) {
+  header .userGreeting {
+    width: 24.99999%;
+  }
+}
+@media only screen and (min-width: 993px) {
+  header .userGreeting {
+    width: 24.99999%;
+  }
+}
+header,
+header .userGreeting h1 {
+  font-size: 24px !important;
+}
+header {
+  padding: 0 8px;
+}
+body {
+  color: #000 !important;
+  background-color: #fff3cd !important;
+}
+header {
+  color: #000 !important;
+  background-color: #ffcd37 !important;
+}
+header {
+  /*&:extend(.w3-padding-8);*/
+}
+header .userGreeting h1 {
+  padding-left: 8px;
+}
+.rssShow-container {
+  height: 450px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.rssShow .feed-item-title {
+  margin: 0;
+  padding: 0;
+}
+.rssShow .feed-title > a,
+.rssShow .feed-item-title > a {
+  color: blue;
+  text-decoration: none;
+}
+.rssShow .feed-item-date {
+  color: lightslategray;
+  font-size: 12px;
+}
+span.rssReloader {
+  padding: 0 7px 0 7px;
+  cursor: pointer;
+}
+nav * a {
+  text-decoration: none;
+}

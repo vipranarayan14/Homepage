@@ -2,6 +2,12 @@ const Home = {
 
     registerEventListeners: function () {
 
+        window.addEventListener('keydown', e => {
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+            }
+        });
+
         document.querySelector("#searchInput").addEventListener('keydown', function (e) {
 
             if (e.keyCode === 13 && this.value !== "") {
@@ -47,7 +53,7 @@ const Home = {
 
     initUserName: function (userName) {
 
-        document.getElementById("userGreeting").innerHTML = "Hello, " + userName + "!";
+        document.querySelector(".userGreeting h1").innerHTML = "Hello, " + userName + "!";
     },
 
     initNavitems: function () {
