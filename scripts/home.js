@@ -17,10 +17,15 @@ const Home = {
             }
         });
 
-        document.querySelector('.nav-bar .nav-item a').addEventListener('click', (e) => {
+        const eles = document.querySelectorAll('.nav-bar .nav-item a');
 
-            chrome.tabs.update({ url: e.target.getAttribute('shortcut-url') });
-        });
+        for (let i = 0; i < eles.length; ++i) {
+
+            eles[i].addEventListener('click', (e) => {
+
+                chrome.tabs.update({ url: e.target.getAttribute('shortcut-url') });
+            });
+        }
 
         document.querySelector(".options-btn").addEventListener('click', function () {
 
