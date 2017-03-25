@@ -64,15 +64,17 @@ const Home = {
 
             for (let shortcut in shortcuts) {
 
-                const navItem = document.querySelector('#nav-item-temp').content.cloneNode(true);
-                const link = navItem.querySelector('a');
-                link.innerHTML = shortcut;
-                link.addEventListener('click', () => {
+                w3.displayObject("nav-bar", shortcuts);
 
-                    chrome.tabs.update({ url: shortcuts[shortcut] });
-                });
+                // const navItem = document.querySelector('#nav-item-temp').content.cloneNode(true);
+                // const link = navItem.querySelector('a');
+                // link.innerHTML = shortcut;
+                // link.addEventListener('click', () => {
 
-                navBar.appendChild(navItem);
+                //     chrome.tabs.update({ url: shortcuts[shortcut] });
+                // });
+
+                // navBar.appendChild(navItem);
             };
         }
     }

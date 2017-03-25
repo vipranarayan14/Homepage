@@ -1,6 +1,6 @@
 const Rss = {
 
-    init: function (options) {
+    init: function(options) {
 
         if (typeof (options) == 'object') {
 
@@ -26,36 +26,17 @@ const Rss = {
         };
     },
 
-    makeFeedContainer: function (feedListContainer) {
+    makeFeedContainer: function(feedListContainer) {
 
         return new Promise((resolve, reject) => {
 
-            for (let feed_src in rssSources) {
-
-                w3.displayObject("ram", rssSources);
-
-                // const feedTemp = document.querySelector('#rss-channel-template').content.cloneNode(true);
-                // const rssChannelTitle = feedTemp.querySelector('.rss-channel-title');
-                // const rssReloader = feedTemp.querySelector('.rss-channel-reload-btn');
-                // const rssShow = feedTemp.querySelector('.rss-feed');
-
-                // if (rssChannelTitle) {
-                //     rssChannelTitle.innerHTML = feed_src
-                // };
-                // if (rssReloader) {
-                //     rssReloader.setAttribute('source', 'rssSources.' + feed_src);
-                // }
-                // if (rssShow) {
-                //     rssShow.setAttribute('source', 'rssSources.' + feed_src);
-                // }
-                // feedListContainer.appendChild(feedTemp);
-            };
+            w3.displayObject("rss-channels-container", rssSources);
 
             resolve();
         });
     },
 
-    registerEventListeners: function () {
+    registerEventListeners: function() {
 
         return new Promise((resolve, reject) => {
 
@@ -84,10 +65,10 @@ const Rss = {
         });
     },
 
-    getFeeds: function (srcUrlTitle, srcUrl, ele) {
+    getFeeds: function(srcUrlTitle, srcUrl, ele) {
         const xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function () {
+        xhttp.onreadystatechange = function() {
 
             if (this.readyState == 4 && this.status == 200) {
 
@@ -108,15 +89,16 @@ const Rss = {
         xhttp.send();
     },
 
-    load: function () {
+    load: function() {
 
         const eles = document.querySelectorAll(".rss-feed");
 
         for (let i = 0; i < eles.length; i++) {
 
             const srcAttrVal = eles[i].getAttribute("source");
-            const srcUrlTitle = srcAttrVal.split('.')[1]
-            const srcUrl = rssSources[srcUrlTitle];
+            const srcUrlIndex = srcAttrVal.split('.')[1];
+            const srcUrlTitle = rssSources.rssSources[srcUrlIndex].feedTitle;
+            const srcUrl = rssSources.rssSources[srcUrlIndex].feedUrl;
 
             const lsItem = localStorage.getItem(srcUrl);
 
@@ -152,14 +134,14 @@ const Rss = {
 
     },
 
-    reload: function (trgt) {
+    reload: function(trgt) {
 
         if (navigator.onLine) {
 
-            const trgtName = trgt.split('.')[1];
-            const rlTarget = rssSources[trgtName];
-            localStorage.removeItem(rlTarget);
-            Rss.showNotification("Reloading feed: " + trgtName);
+            const srcUrlIndex = trgt.split('.')[1];
+            const srcUrlTitle = rssSources.rssSources[srcUrlIndex].feedTitle;
+            localStorage.removeItem(srcUrlTitle);
+            Rss.showNotification("Reloading feed: " + srcUrlTitle);
             Rss.load();
         } else {
 
@@ -167,7 +149,7 @@ const Rss = {
         }
     },
 
-    update: function (srcUrl, feed, ele) {
+    update: function(srcUrl, feed, ele) {
 
         const rssFeed = Rss.makeHTML(feed);
 
@@ -177,7 +159,7 @@ const Rss = {
         ele.innerHTML = rssFeed;
     },
 
-    makeHTML: function (xml) {
+    makeHTML: function(xml) {
 
         function parseXMLtoJSON(xmlRaw) {
 
@@ -241,7 +223,7 @@ const Rss = {
 
     isShowNotification: true,
 
-    showNotification: function (message) {
+    showNotification: function(message) {
 
         if (Rss.isShowNotification) {
 
@@ -260,7 +242,7 @@ const Rss = {
 
     islogConsole: false,
 
-    logConsole: function (message, type) {
+    logConsole: function(message, type) {
 
         if (Rss.islogConsole) {
 
@@ -277,7 +259,7 @@ const Rss = {
         }
     },
 
-    formatAsError: function (message) {
+    formatAsError: function(message) {
 
         return '<center><p style="font-size:20px; color:red">' + message + '</p></center>';
     }
