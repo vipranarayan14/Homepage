@@ -6,6 +6,7 @@ body {
 }
 
 .header {
+    &:extend(.w3-row all);
     &:extend(.w3-padding);
     &:extend(.w3-theme-l1);
     &:extend(.w3-xlarge);
@@ -40,6 +41,12 @@ body {
     * a {
         text-decoration: none;
     }
+    .nav-item {
+        &:extend(.w3-tag);
+        &:extend(.w3-round);
+        &:extend(.w3-theme);
+        &:extend(.w3-hover-orange all);
+    }
     .options-btn {
         &:extend(.w3-right);
         &:extend(.w3-round);
@@ -71,6 +78,8 @@ body {
             }
         }
         .rss-feed-container {
+            &:extend(.w3-container);
+            &:extend(.w3-white);
             height: 450px;
             overflow-y: scroll;
             overflow-x: hidden;

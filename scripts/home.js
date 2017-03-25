@@ -64,7 +64,7 @@ const Home = {
 
             for (let shortcut in shortcuts) {
 
-                const navItem = document.querySelector('#navItemTemp').content.cloneNode(true);
+                const navItem = document.querySelector('#nav-item-temp').content.cloneNode(true);
                 const link = navItem.querySelector('a');
                 link.innerHTML = shortcut;
                 link.addEventListener('click', () => {

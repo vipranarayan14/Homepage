@@ -2,68 +2,67 @@
 <html lang="en-US">
 
 <head>
-  <title>Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/index.css">
 
-  <template id="navItemTemp">
-    <span class="w3-tag w3-round w3-theme w3-hover-orange">
-            <a href="#">navItem</a>
-        </span>
-  </template>
+    <template id="nav-item-temp">
+        <span class="nav-item"><a href="#">navItem</a></span>
+    </template>
 
-  <template id="rss-channel-template">
-    <div class="rss-channel-container">
-      <div>
-        <div class="rss-channel-titlebar">
-          <span class="rss-channel-title"></span>
-          <span class="rss-channel-reload-btn">Reload</span>
+    <template id="rss-channel-template">
+        <div class="rss-channel-container">
+            <div>
+                <div class="rss-channel-titlebar">
+                    <span class="rss-channel-title"></span>
+                    <span class="rss-channel-reload-btn">Reload</span>
+                </div>
+                <div class="rss-feed-container">
+                    <div class="rss-feed"></div>
+                </div>
+            </div>
         </div>
-        <div class="w3-container w3-white rss-feed-container">
-          <div class="rss-feed"></div>
-        </div>
-      </div>
-    </div>
-  </template>
+    </template>
 
-  <template id="rss-notification-template">
-    <div class="rss-notification">
-      <p class="rss-notification-content"></p>
-      <span class="rss-notification-close-btn">&times;</span>
-    </div>
-  </template>
+    <template id="rss-notification-template">
+        <div class="rss-notification">
+            <p class="rss-notification-content"></p>
+            <span class="rss-notification-close-btn">&times;</span>
+        </div>
+    </template>
 
 </head>
 
 <body>
-  <header class="header w3-row">
-    <div class="user-greeting">
-      <h1>Hello, user!</h1>
-    </div>
-    <div class="search-input">
-      <input type="search" placeholder="Search Google">
-    </div>
-    <div class="space-filler"></div>
-  </header>
+    <header class="header">
+        <div class="user-greeting">
+            <h1>Hello, user!</h1>
+        </div>
+        <div class="search-input">
+            <input type="search" placeholder="Search Google">
+        </div>
+        <div class="space-filler"></div>
+    </header>
 
-  <nav class="nav-bar">
-    <div class="options-btn">
-      <img src="../assets/images/settings.png" alt="Options" height="25px">
-    </div>
-  </nav>
+    <nav class="nav-bar">
+        <div class="options-btn">
+            <img src="../assets/images/settings.png" alt="Options" height="25px">
+        </div>
+    </nav>
 
-  <main class="rss-channels-container"></main>
+    <main class="rss-channels-container"></main>
 
-  <aside class="rss-notifications-container"></aside>
+    <aside class="rss-notifications-container"></aside>
 
-  <script src="../user_prefs/shortcuts.js"></script>
-  <script src="../user_prefs/rss-sources.js"></script>
-  <script src="../assets/rsser/rsser.js"></script>
-  <script src="../assets/rsser/date-formatter.js"></script>
-  <script src="../assets/rsser/xml2json.min.js"></script>
-  <script src="../scripts/home.js"></script>
-  <script src="../scripts/index.js"></script>
+    <script src="../user_prefs/shortcuts.js"></script>
+    <script src="../user_prefs/rss-sources.js"></script>
+    <script src="../assets/w3/w3.js"></script>
+    <script src="../assets/rsser/rsser.js"></script>
+    <script src="../assets/rsser/date-formatter.js"></script>
+    <script src="../assets/rsser/xml2json.min.js"></script>
+    <script src="../scripts/home.js"></script>
+    <script src="../scripts/index.js"></script>
 </body>
 
 </html>
