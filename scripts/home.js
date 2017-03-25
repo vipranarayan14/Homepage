@@ -17,6 +17,11 @@ const Home = {
             }
         });
 
+        document.querySelector('.nav-bar .nav-item a').addEventListener('click', (e) => {
+
+            chrome.tabs.update({ url: e.target.getAttribute('shortcut-url') });
+        });
+
         document.querySelector(".options-btn").addEventListener('click', function () {
 
             chrome.runtime.openOptionsPage();
@@ -62,20 +67,8 @@ const Home = {
 
         if (navBar && typeof (shortcuts) == 'object') {
 
-            for (let shortcut in shortcuts) {
+            w3.displayObject("nav-bar", shortcuts);
 
-                w3.displayObject("nav-bar", shortcuts);
-
-                // const navItem = document.querySelector('#nav-item-temp').content.cloneNode(true);
-                // const link = navItem.querySelector('a');
-                // link.innerHTML = shortcut;
-                // link.addEventListener('click', () => {
-
-                //     chrome.tabs.update({ url: shortcuts[shortcut] });
-                // });
-
-                // navBar.appendChild(navItem);
-            };
         }
     }
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../styles/index.css">
 
     <template id="nav-item-temp">
+        <span class="nav-item" w3-repeat="shortcuts"><a href="#">{{shortcutTitle}}</a></span>
 
     </template>
 
@@ -32,7 +33,9 @@
     </header>
 
     <nav id="nav-bar" class="nav-bar">
-        <span class="nav-item" w3-repeat="shortcuts"><a href="#">{{shortcutTitle}}</a></span>
+        <span class="nav-item" w3-repeat="shortcuts">
+            <a href="#" shortcut-url={{shortcutUrl}}>{{shortcutTitle}}</a>
+        </span>
         <span class="options-btn">
             <img src="../assets/images/settings.png" alt="Options" height="25px">
         </span>
