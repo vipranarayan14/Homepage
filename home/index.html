@@ -12,17 +12,7 @@
     </template>
 
     <template id="rss-channel-template">
-        <div class="rss-channel-container">
-            <div>
-                <div class="rss-channel-titlebar">
-                    <span class="rss-channel-title"></span>
-                    <span class="rss-channel-reload-btn">Reload</span>
-                </div>
-                <div class="rss-feed-container">
-                    <div class="rss-feed"></div>
-                </div>
-            </div>
-        </div>
+
     </template>
 
     <template id="rss-notification-template">
@@ -46,17 +36,29 @@
     </header>
 
     <nav class="nav-bar">
-        <div class="options-btn">
+        <span class="options-btn">
             <img src="../assets/images/settings.png" alt="Options" height="25px">
-        </div>
+        </span>
     </nav>
 
-    <main class="rss-channels-container"></main>
+    <main class="rss-channels-container" id="ram">
+        <div class="rss-channel-container" w3-repeat="rssSources">
+            <div>
+                <div class="rss-channel-titlebar">
+                    <span class="rss-channel-title">{{feedTitle}}</span>
+                    <span class="rss-channel-reload-btn" source=rssSources.{{feedTitle}}>Reload</span>
+                </div>
+                <div class="rss-feed-container">
+                    <div class="rss-feed" source=rssSources.{{feedTitle}}></div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <aside class="rss-notifications-container"></aside>
 
-    <script src="../user_prefs/shortcuts.js"></script>
-    <script src="../user_prefs/rss-sources.js"></script>
+    <script src="../user_prefs/shortcuts2.js"></script>
+    <script src="../user_prefs/rss-sources2.js"></script>
     <script src="../assets/w3/w3.js"></script>
     <script src="../assets/rsser/rsser.js"></script>
     <script src="../assets/rsser/date-formatter.js"></script>

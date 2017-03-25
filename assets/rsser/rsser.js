@@ -32,21 +32,23 @@ const Rss = {
 
             for (let feed_src in rssSources) {
 
-                const feedTemp = document.querySelector('#rss-channel-template').content.cloneNode(true);
-                const rssChannelTitle = feedTemp.querySelector('.rss-channel-title');
-                const rssReloader = feedTemp.querySelector('.rss-channel-reload-btn');
-                const rssShow = feedTemp.querySelector('.rss-feed');
+                w3.displayObject("ram", rssSources);
 
-                if (rssChannelTitle) {
-                    rssChannelTitle.innerHTML = feed_src
-                };
-                if (rssReloader) {
-                    rssReloader.setAttribute('source', 'rssSources.' + feed_src);
-                }
-                if (rssShow) {
-                    rssShow.setAttribute('source', 'rssSources.' + feed_src);
-                }
-                feedListContainer.appendChild(feedTemp);
+                // const feedTemp = document.querySelector('#rss-channel-template').content.cloneNode(true);
+                // const rssChannelTitle = feedTemp.querySelector('.rss-channel-title');
+                // const rssReloader = feedTemp.querySelector('.rss-channel-reload-btn');
+                // const rssShow = feedTemp.querySelector('.rss-feed');
+
+                // if (rssChannelTitle) {
+                //     rssChannelTitle.innerHTML = feed_src
+                // };
+                // if (rssReloader) {
+                //     rssReloader.setAttribute('source', 'rssSources.' + feed_src);
+                // }
+                // if (rssShow) {
+                //     rssShow.setAttribute('source', 'rssSources.' + feed_src);
+                // }
+                // feedListContainer.appendChild(feedTemp);
             };
 
             resolve();
