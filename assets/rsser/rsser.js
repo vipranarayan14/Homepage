@@ -4,18 +4,12 @@ const Rss = {
 
         if (typeof (options) == 'object') {
 
-            if (options.notify === undefined) {
-
-                Rss.isShowNotification = Rss.isShowNotification;
-            } else {
+            if (!options.notify === undefined) {
 
                 Rss.isShowNotification = options.notify;
             }
 
-            if (options.logConsole === undefined) {
-
-                Rss.islogConsole = Rss.islogConsole;
-            } else {
+            if (!options.logConsole === undefined) {
 
                 Rss.islogConsole = options.logConsole;
             }
@@ -23,7 +17,7 @@ const Rss = {
 
         const feedListContainer = document.querySelector('.rss-channels-container');
 
-        if (feedListContainer) {
+        if (typeof w3 == 'object' && feedListContainer) {
 
             Rss.makeFeedContainer(feedListContainer)
                 .then(Rss.registerEventListeners())
@@ -34,7 +28,7 @@ const Rss = {
 
     makeFeedContainer: function (feedListContainer) {
 
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
             for (let feed_src in rssSources) {
 
@@ -61,7 +55,7 @@ const Rss = {
 
     registerEventListeners: function () {
 
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
             window.addEventListener('online', () => {
 
@@ -256,7 +250,7 @@ const Rss = {
                 const event = new CustomEvent('RssNotification', { 'detail': message });
                 document.dispatchEvent(event);
             } else {
-                
+
                 Rss.logConsole(message, "info");
             }
         }
