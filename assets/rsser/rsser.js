@@ -21,7 +21,7 @@ const Rss = {
             }
         }
 
-        const feedListContainer = document.querySelector('#rss-feeds-container');
+        const feedListContainer = document.querySelector('.rss-channels-container');
 
         if (feedListContainer) {
 
@@ -38,10 +38,10 @@ const Rss = {
 
             for (let feed_src in rssSources) {
 
-                const feedTemp = document.querySelector('#rss-feeds-template').content.cloneNode(true);
-                const rssChannelTitle = feedTemp.querySelector('.rssChannelTitle');
-                const rssReloader = feedTemp.querySelector('.rssReloader');
-                const rssShow = feedTemp.querySelector('.rssShow');
+                const feedTemp = document.querySelector('#rss-channel-template').content.cloneNode(true);
+                const rssChannelTitle = feedTemp.querySelector('.rss-channel-title');
+                const rssReloader = feedTemp.querySelector('.rss-channel-reload-btn');
+                const rssShow = feedTemp.querySelector('.rss-feed');
 
                 if (rssChannelTitle) {
                     rssChannelTitle.innerHTML = feed_src
@@ -74,7 +74,7 @@ const Rss = {
                 Rss.showNotification("The App is offline.");
             });
 
-            const rssReloaders = document.querySelectorAll('.rssReloader');
+            const rssReloaders = document.querySelectorAll('.rss-channel-reload-btn');
 
             for (let i = 0; i < rssReloaders.length; ++i) {
 
@@ -114,7 +114,7 @@ const Rss = {
 
     load: function () {
 
-        const eles = document.querySelectorAll(".rssShow");
+        const eles = document.querySelectorAll(".rss-feed");
 
         for (let i = 0; i < eles.length; i++) {
 
@@ -249,7 +249,7 @@ const Rss = {
 
         if (Rss.isShowNotification) {
 
-            const rssNotifier = document.querySelector('#rss-notifications-container');
+            const rssNotifier = document.querySelector('.rss-notifications-container');
 
             if (rssNotifier) {
 

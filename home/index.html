@@ -13,51 +13,49 @@
         </span>
   </template>
 
-  <template id="rss-feeds-template">
-    <div class="w3-col m6 l4 w3-mobile w3-section w3-animate-left">
-      <div class="w3-card-4">
-        <div class="w3-container w3-blue w3-display-top">
-          <span class="rssChannelTitle"></span>
-          <span class="w3-right w3-round w3-hover-indigo rssReloader">Reload</span>
+  <template id="rss-channel-template">
+    <div class="rss-channel-container">
+      <div>
+        <div class="rss-channel-titlebar">
+          <span class="rss-channel-title"></span>
+          <span class="rss-channel-reload-btn">Reload</span>
         </div>
-        <div class="w3-container w3-white rssShow-container">
-          <div class="rssShow"></div>
+        <div class="w3-container w3-white rss-feed-container">
+          <div class="rss-feed"></div>
         </div>
       </div>
     </div>
   </template>
 
-  <template id="rss-notifier-template">
-    <div class="rss-alert w3-panel w3-margin-right w3-lime w3-card-2 w3-display-container w3-hide-small" style="width: 315px">
-      <p class="rssNotification w3-margin-right" style="display: inline-block; word-wrap: break-word; width: 90%;"></p>
-      <span class="alert-close-btn w3-round w3-padding-tiny w3-margin-right w3-display-right w3-hover-green" style="cursor: pointer">&times;</span>
+  <template id="rss-notification-template">
+    <div class="rss-notification">
+      <p class="rss-notification-content"></p>
+      <span class="rss-notification-close-btn">&times;</span>
     </div>
   </template>
 
 </head>
 
 <body>
-  <header>
-    <div class="userGreeting">
-      <ul class="w3-navbar">
-        <h1>Hello, user!</h1>
-      </ul>
+  <header class="header w3-row">
+    <div class="user-greeting">
+      <h1>Hello, user!</h1>
     </div>
-    <div class="searchInput">
-      <input id="searchInput" type="search" class="" style="width:100%" placeholder="Search Google">
+    <div class="search-input">
+      <input type="search" placeholder="Search Google">
     </div>
-    <div class="w3-quarter"></div>
+    <div class="space-filler"></div>
   </header>
 
-  <nav id="navBar" class="w3-container w3-padding-12 w3-theme-l2 w3-large w3-card-2">
-    <div id="optionsLink" class="w3-right w3-round" style="cursor: pointer">
+  <nav class="nav-bar">
+    <div class="options-btn">
       <img src="../assets/images/settings.png" alt="Options" height="25px">
     </div>
   </nav>
 
-  <main id="rss-feeds-container" class="w3-row-padding"></main>
+  <main class="rss-channels-container"></main>
 
-  <aside id="rss-notifications-container" class="w3-display-topright"></aside>
+  <aside class="rss-notifications-container"></aside>
 
   <script src="../user_prefs/shortcuts.js"></script>
   <script src="../user_prefs/rss-sources.js"></script>

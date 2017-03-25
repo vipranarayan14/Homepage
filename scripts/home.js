@@ -8,7 +8,7 @@ const Home = {
             }
         });
 
-        document.querySelector("#searchInput").addEventListener('keydown', function (e) {
+        document.querySelector('.search-input input[type="search"]').addEventListener('keydown', function (e) {
 
             if (e.keyCode === 13 && this.value !== "") {
 
@@ -17,23 +17,23 @@ const Home = {
             }
         });
 
-        document.querySelector("#optionsLink").addEventListener('click', function () {
+        document.querySelector(".options-btn").addEventListener('click', function () {
 
             chrome.runtime.openOptionsPage();
         });
 
         document.addEventListener('RssNotification', (e) => {
 
-            const rssNotificationsContainer = document.querySelector('#rss-notifications-container');
+            const rssNotificationsContainer = document.querySelector('.rss-notifications-container');
 
             if (rssNotificationsContainer) {
 
                 const rssNotifier = document.createElement('DIV');
 
-                rssNotifier.innerHTML = document.querySelector('#rss-notifier-template').innerHTML;
+                rssNotifier.innerHTML = document.querySelector('#rss-notification-template').innerHTML;
 
-                const rssNotification = rssNotifier.querySelector('.rssNotification');
-                const rssNotificationCloseBtn = rssNotifier.querySelector('.alert-close-btn');
+                const rssNotification = rssNotifier.querySelector('.rss-notification-content');
+                const rssNotificationCloseBtn = rssNotifier.querySelector('.rss-notification-close-btn');
 
                 rssNotification.innerHTML = e.detail;
                 rssNotificationCloseBtn.addEventListener('click', (e) => {
@@ -53,12 +53,12 @@ const Home = {
 
     initUserName: function (userName) {
 
-        document.querySelector(".userGreeting h1").innerHTML = "Hello, " + userName + "!";
+        document.querySelector(".user-greeting h1").innerHTML = "Hello, " + userName + "!";
     },
 
     initNavitems: function () {
 
-        const navBar = document.querySelector("#navBar");
+        const navBar = document.querySelector(".nav-bar");
 
         if (navBar && typeof (shortcuts) == 'object') {
 
