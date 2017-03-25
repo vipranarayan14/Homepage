@@ -5,6 +5,6 @@
     "command": "lessc",
     "isBuildCommand": true,
     "isShellCommand": true,
-    "args": ["styles/index.less","styles/index.css"],
+    "args": ["--clean-css","styles/index.less","styles/index.css"],
     "showOutput": "always"
 }
