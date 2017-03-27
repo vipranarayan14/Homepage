@@ -6,13 +6,9 @@
   "icons": {
     "48": "assets/images/icon.png"
   },
-
-  "options_page": "home/options.html",
-
   "chrome_url_overrides": {
     "newtab": "home/index.html"
   },
-
   "permissions": [
     "tabs",
     "storage",

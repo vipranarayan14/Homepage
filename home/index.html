@@ -16,6 +16,9 @@
 </head>
 
 <body>
+    <section class="DOMProgress">
+        <progress></progress>
+    </section>
     <header class="header">
         <div class="user-greeting">
             <h1>Hello, user!</h1>
@@ -51,6 +54,41 @@
 
     <aside class="rss-notifications-container"></aside>
 
+    <aside class="options-modal-container">
+        <div class="options-modal">
+            <header>
+                <button class="options-modal-close-btn">&times;</button>
+                <h3>Options</h3>
+            </header>
+            <div class="options-modal-content">
+                <div class="rssSources-options">
+                    <h4>Rss Sources</h4>
+                    <input class="rssSources-title-input" type="text">
+                    <input class="rssSources-url-input" type="text">
+                    <table id="rssSources-list">
+                        <tr class="rssSources-item" w3-repeat="rssSources">
+                            <td class="rssSources-title">* {{feedTitle}}</td>
+                            <td class="rssSources-url">{{feedUrl}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <hr>
+                <div class="shortcuts-options">
+                    <h4>Shortcuts</h4>
+                    <input class="shortcuts-title-input" type="text">
+                    <input class="shortcuts-url-input" type="text">
+                    <table id="shortcuts-list">
+                        <tr class="shortcuts-item" w3-repeat="shortcuts">
+                            <td class="shortcuts-title">* {{shortcutTitle}}</td>
+                            <td class="shortcuts-url">{{shortcutUrl}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </aside>
+
     <script src="../user_prefs/shortcuts.js"></script>
     <script src="../user_prefs/rss-sources.js"></script>
     <script src="../assets/w3/w3.js"></script>
@@ -58,6 +96,7 @@
     <script src="../assets/rsser/date-formatter.js"></script>
     <script src="../assets/rsser/xml2json.min.js"></script>
     <script src="../scripts/home.js"></script>
+    <script src="../scripts/options.js"></script>
     <script src="../scripts/index.js"></script>
 </body>
 
