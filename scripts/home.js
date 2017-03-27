@@ -2,10 +2,6 @@ const Home = {
 
     registerEventListeners: function () {
 
-        window.addEventListener('load', () => {
-            document.querySelector('.DOMProgress').style.display = 'none';
-        })
-
         window.addEventListener('keydown', e => {
             if (e.ctrlKey && e.keyCode === 83) {
                 e.preventDefault();
@@ -33,7 +29,7 @@ const Home = {
 
         document.querySelector(".options-btn").addEventListener('click', function () {
 
-                document.querySelector('.options-modal-container').style.display = 'block';
+            document.querySelector('.options-modal-container').style.display = 'block';
         });
 
         document.addEventListener('RssNotification', (e) => {
