@@ -5,6 +5,16 @@ body {
     &:extend(.w3-theme-l4);
 }
 
+.DOMProgress {
+    &:extend(.w3-modal);
+    &:extend(.w3-display-container);
+    display: block;
+    background-color: wheat;
+    progress {
+        &:extend(.w3-display-middle);
+    }
+}
+
 .header {
     &:extend(.w3-row all);
     &:extend(.w3-padding);
@@ -65,7 +75,7 @@ body {
         &:extend(.w3-section);
         &:extend(.w3-animate-left);
         >div {
-            &:extend(.w3-card-4);
+            &:extend(.w3-card);
         }
         .rss-channel-titlebar {
             &:extend(.w3-container);
@@ -125,5 +135,30 @@ body {
         &:extend(.w3-hover-green all);
         cursor: pointer;
         padding: 0px 4px;
+    }
+}
+
+.options-modal-container {
+    &:extend(.w3-modal);
+    /*display: block;*/
+    .options-modal {
+        &:extend(.w3-modal-content);
+        &:extend(.w3-animate-top);
+        header {
+            &:extend(.w3-container);
+            &:extend(.w3-theme-d1);
+            .options-modal-close-btn {
+                &:extend(.w3-button);
+                &:extend(.w3-display-topright);
+                &:extend(.w3-round);
+                &:extend(.w3-hover-red all);
+            }
+        }
+        .options-modal-content {
+            &:extend(.w3-container);
+            height: 400px;
+            overflow-y: auto;
+            overflow-x: none;
+        }
     }
 }
