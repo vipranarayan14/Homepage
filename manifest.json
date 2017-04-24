@@ -7,7 +7,7 @@
     "48": "assets/images/icon.png"
   },
   "chrome_url_overrides": {
-    "newtab": "home/index.html"
+    "newtab": "dist/index.html"
   },
   "permissions": [
     "tabs",
