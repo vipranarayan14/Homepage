@@ -2,36 +2,51 @@ const Rss = {
 
     init: function(options) {
 
-        if (typeof (options) == 'object') {
+        Rss.checkDependenciesMeet(options)
+            .then(Rss.configureOptions)
+            .then(Rss.makeFeedContainer)
+            .then(Rss.registerEventListeners)
+            .then(Rss.load)
+            .catch(new Error());
+    },
 
-            if (!options.notify === undefined) {
-
-                Rss.isShowNotification = options.notify;
-            }
-
-            if (!options.logConsole === undefined) {
-
-                Rss.islogConsole = options.logConsole;
-            }
-        }
+    checkDependenciesMeet: function(options) {
 
         const feedListContainer = document.querySelector('.rss-channels-container');
 
-        if (typeof w3 == 'object' && feedListContainer) {
+        return new Promise((resolve, reject) => {
 
-            Rss.makeFeedContainer(feedListContainer)
-                .then(Rss.registerEventListeners())
-                .then(Rss.load());
-
-        };
+            if (feedListContainer && typeof w3 == 'object') {
+                resolve(options);
+            } else {
+                reject("Dependencies not met!");
+            }
+        });
     },
 
-    makeFeedContainer: function(feedListContainer) {
+    configureOptions: function(options) {
+
+        return new Promise((resolve, reject) => {
+            if (options) {
+                Rss.config = Object.assign(Rss.config, options);
+            }
+            if (Rss.config.rssSources()) {
+                resolve();
+            } else {
+
+                const msg = "Rsser is not configured yet. Please use Options to add Rss Channels";
+                document.querySelector('.rss-channels-container').style.display = 'none';
+                Rss.showNotification(msg);
+                reject(msg);
+            }
+        });
+    },
+
+    makeFeedContainer: function() {
 
         return new Promise((resolve, reject) => {
 
-            w3.displayObject("rss-channels-container", rssSources);
-
+            w3.displayObject("rss-channels-container", Rss.config.rssSources());
             resolve();
         });
     },
@@ -56,8 +71,8 @@ const Rss = {
             for (let i = 0; i < rssReloaders.length; ++i) {
 
                 rssReloaders[i].addEventListener('click', (e) => {
-
-                    Rss.reload(e.target.getAttribute("source"));
+                    //Todo: change this
+                    Rss.reload(e.target.parentNode.parentNode.parentNode);
                 });
             }
 
@@ -73,7 +88,7 @@ const Rss = {
             if (this.readyState == 4 && this.status == 200) {
 
                 Rss.showNotification("Got Feeds for " + srcUrlTitle);
-                Rss.update(srcUrl, this.responseText, ele);
+                Rss.update(srcUrlTitle, this.responseText, ele);
             }
         }
 
@@ -82,7 +97,7 @@ const Rss = {
             const msg = "Feeds fetching failed!";
 
             Rss.logConsole(msg, "error");
-            ele.innerHTML = Rss.formatAsError(msg);
+            ele.querySelector('.rss-feed').innerHTML = Rss.formatAsError(msg);
         });
 
         xhttp.open("GET", srcUrl, true);
@@ -91,26 +106,25 @@ const Rss = {
 
     load: function() {
 
-        const eles = document.querySelectorAll(".rss-feed");
+        const eles = document.querySelectorAll(".rss-channel-container");
 
         for (let i = 0; i < eles.length; i++) {
 
-            const srcAttrVal = eles[i].getAttribute("source");
-            const srcUrlIndex = srcAttrVal.split('.')[1];
-            const srcUrlTitle = rssSources.rssSources[srcUrlIndex].feedTitle;
-            const srcUrl = rssSources.rssSources[srcUrlIndex].feedUrl;
+            const srcUrlIndex = eles[i].getAttribute('display-object-index');
+            const srcUrlTitle = Rss.config.rssSources().rssSources[srcUrlIndex].feedTitle;
+            const srcUrl = Rss.config.rssSources().rssSources[srcUrlIndex].feedUrl;
 
-            const lsItem = localStorage.getItem(srcUrl);
+            const lsItem = Rss.config.rssSources().rssSources[srcUrlIndex].feedData;
 
-            const minutesNow = (new Date()).getMinutes() || 60;
-            const lastUpateAtMins = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
-            const timeLeft = minutesNow - lastUpateAtMins;
+            const UnixTime_Now = Date.now();
+            const UnixTime_lastUpateAt = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
+            const timeLeft = UnixTime_Now - UnixTime_lastUpateAt;
 
             var status = "Hi";
 
             if (lsItem !== null) {
 
-                eles[i].innerHTML = lsItem;
+                eles[i].querySelector('.rss-feed').innerHTML = lsItem;
                 status = "Loaded feeds from Local Storage.";
 
             } else {
@@ -119,7 +133,7 @@ const Rss = {
                 status = "Downloading feeds.";
             }
 
-            if ((timeLeft >= 10 || timeLeft < 0) && navigator.onLine) {
+            if ((timeLeft < 0 || timeLeft > 60000) && navigator.onLine) {
 
                 Rss.getFeeds(srcUrlTitle, srcUrl, eles[i]);
                 status = "Downloading feeds.";
@@ -134,29 +148,44 @@ const Rss = {
 
     },
 
-    reload: function(trgt) {
+    reload: function(ele) {
 
         if (navigator.onLine) {
 
-            const srcUrlIndex = trgt.split('.')[1];
-            const srcUrlTitle = rssSources.rssSources[srcUrlIndex].feedTitle;
-            localStorage.removeItem(srcUrlTitle);
+            const srcUrlIndex = ele.getAttribute('display-object-index');
+            const srcUrlTitle = Rss.config.rssSources().rssSources[srcUrlIndex].feedTitle;
+            let rssSourcesCopy = Rss.config.rssSources();
+
+            rssSourcesCopy.rssSources[srcUrlIndex].feedData = null;
+            localStorage.setItem('feedSources', JSON.stringify(rssSourcesCopy));
             Rss.showNotification("Reloading feed: " + srcUrlTitle);
             Rss.load();
+
         } else {
 
             return Rss.showNotification("Failed to reload feed. The App is Offline.");
         }
     },
 
+    reloadAll: function() {
+
+        const eles = document.querySelectorAll(".rss-channel-container");
+
+        for (var i = 0; i < eles.length; i++) {
+            Rss.reload(eles[i]);
+        };
+    },
+
     update: function(srcUrl, feed, ele) {
 
         const rssFeed = Rss.makeHTML(feed);
+        const feedSourcesCopy = JSON.parse(localStorage.feedSources);
+        const feedIndex = ele.getAttribute('display-object-index')
+        feedSourcesCopy.rssSources[feedIndex].feedData = rssFeed;
+        localStorage.feedSources = JSON.stringify(feedSourcesCopy);
+        localStorage.setItem("lastUpdateAt", Date.now());
 
-        localStorage.setItem(srcUrl, rssFeed);
-        localStorage.setItem("lastUpdateAt", (new Date()).getMinutes());
-
-        ele.innerHTML = rssFeed;
+        ele.querySelector('.rss-feed').innerHTML = rssFeed;
     },
 
     makeHTML: function(xml) {
@@ -221,11 +250,15 @@ const Rss = {
         return HTMLDoc;
     },
 
-    isShowNotification: true,
+    config: {
+        isShowNotification: true,
+        islogConsole: false,
+        rssSources: () => JSON.parse(localStorage.getItem('feedSources'))
+    },
 
     showNotification: function(message) {
 
-        if (Rss.isShowNotification) {
+        if (Rss.config.isShowNotification) {
 
             const rssNotifier = document.querySelector('.rss-notifications-container');
 
@@ -240,11 +273,9 @@ const Rss = {
         }
     },
 
-    islogConsole: false,
-
     logConsole: function(message, type) {
 
-        if (Rss.islogConsole) {
+        if (Rss.config.islogConsole) {
 
             if (!type) {
 
