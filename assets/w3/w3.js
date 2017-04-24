@@ -320,6 +320,7 @@ w3.displayObject = function (id, data) {
         for (ii = 0; ii < a.length; ii += 1) {
           a[ii].value = w3_replace_curly(a[ii], "attribute", repeatX, repeatObj[x]).value;
         }
+        rowClone.setAttribute('display-object-index', x); //Prasanna's attribute for mapping Objects to Elements
         (i === repeatObj.length) ? arr[j].parentNode.replaceChild(rowClone, arr[j]) : arr[j].parentNode.insertBefore(rowClone, arr[j]);
       }
     } else {
