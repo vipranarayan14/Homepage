@@ -1,0 +1,13 @@
+<main id="rss-channels-container" class="rss-channels-container">
+  <div class="rss-channel-container" w3-repeat="rssSources">
+    <div>
+      <div class="rss-channel-titlebar">
+        <span class="rss-channel-title">{{feedTitle}}</span>
+        <span class="rss-channel-reload-btn" source=rssSources.{{index}}>Reload</span>
+      </div>
+      <div class="rss-feed-container">
+        <div class="rss-feed" source=rssSources.{{index}}></div>
+      </div>
+    </div>
+  </div>
+</main>
