@@ -1,8 +1,21 @@
 {
     "version": "0.1.0",
-    "command": "lessc",
-    "isBuildCommand": true,
-    "isShellCommand": true,
-    "args": ["--clean-css","styles/index.less","dist/index.css"],
-    "showOutput": "always"
+    "linux": {
+        "command": "sh",
+        "args": [
+            "-c"
+        ],
+        "isShellCommand": true
+    },
+    "tasks": [
+        {
+            "taskName": "build-project",
+            "suppressTaskName": true,
+            "args": [
+                "lessc --clean-css styles/styles.less dist/styles.css && fuse -i home/index.html -o dist/index.html && fuse -i scripts/includes.js -o dist/script.js"
+            ],
+            "isBuildCommand": true,
+            "showOutput": "always"
+        }
+    ]
 }
