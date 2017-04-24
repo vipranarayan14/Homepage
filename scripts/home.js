@@ -27,6 +27,11 @@ const Home = {
             });
         }
 
+        document.querySelector(".refresh-btn").addEventListener('click', function () {
+
+            Rss.reloadAll();
+        });
+
         document.querySelector(".options-btn").addEventListener('click', function () {
 
             document.querySelector('.options-modal-container').style.display = 'block';
