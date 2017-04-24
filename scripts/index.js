@@ -18,7 +18,7 @@ function startHome() {
 
     Home.registerEventListeners();
 
-    Rss.init({ notify: true, logConsole: false });
+    Rss.init({ islogConsole: true });
   }
 }
 
