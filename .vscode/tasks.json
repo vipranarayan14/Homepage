@@ -3,6 +3,6 @@
     "command": "lessc",
     "isBuildCommand": true,
     "isShellCommand": true,
-    "args": ["--clean-css","styles/index.less","styles/index.css"],
+    "args": ["--clean-css","styles/index.less","dist/index.css"],
     "showOutput": "always"
 }
