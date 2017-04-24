@@ -42,10 +42,10 @@
     <div>
       <div class="rss-channel-titlebar">
         <span class="rss-channel-title">{{feedTitle}}</span>
-        <span class="rss-channel-reload-btn" source=rssSources.{{index}}>Reload</span>
+        <span class="rss-channel-reload-btn">Reload</span>
       </div>
       <div class="rss-feed-container">
-        <div class="rss-feed" source=rssSources.{{index}}></div>
+        <div class="rss-feed"></div>
       </div>
     </div>
   </div>
@@ -60,26 +60,26 @@
     <div class="options-modal-content">
       <div class="rssSources-options">
         <h4>Rss Sources</h4>
-        <input class="rssSources-title-input" type="text">
-        <input class="rssSources-url-input" type="text">
-        <table id="rssSources-list">
+        <textarea class="rssSources-title-input" style="height:150px; width:80%"></textarea>
+        <!--<input class="rssSources-url-input" type="text">-->
+        <!--<table id="rssSources-list">
           <tr class="rssSources-item" w3-repeat="rssSources">
             <td class="rssSources-title">* {{feedTitle}}</td>
             <td class="rssSources-url">{{feedUrl}}</td>
           </tr>
-        </table>
+        </table>-->
       </div>
       <hr>
       <div class="shortcuts-options">
         <h4>Shortcuts</h4>
-        <input class="shortcuts-title-input" type="text">
-        <input class="shortcuts-url-input" type="text">
-        <table id="shortcuts-list">
+        <textarea class="shortcuts-title-input" style="height:150px; width:80%"></textarea>
+        <!--<input class="shortcuts-url-input" type="text">-->
+        <!--<table id="shortcuts-list">
           <tr class="shortcuts-item" w3-repeat="shortcuts">
             <td class="shortcuts-title">* {{shortcutTitle}}</td>
             <td class="shortcuts-url">{{shortcutUrl}}</td>
           </tr>
-        </table>
+        </table>-->
       </div>
     </div>
   </div>
