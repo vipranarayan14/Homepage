@@ -2,7 +2,7 @@
 // @depends ../scripts/progress.js
 
 // included from ../user_prefs/shortcuts.js
-// @depends ../user_prefs/shortcuts.js
+// @depends ../misc/shortcuts.js
 
 // included from ../assets/w3/w3.js
 // @depends ../assets/w3/w3.js
