@@ -2,6 +2,7 @@
 window.addEventListener('load', () => {
     document.querySelector('.DOMProgress').style.display = 'none';
 });
+
 // included from ../user_prefs/shortcuts.js
 //Add shortcut URLs here.
 var shortcuts = {
@@ -24,26 +25,7 @@ var shortcuts = {
         }
     ]
 };
-// included from ../user_prefs/rss-sources.js
-var rssSources = {
-    "rssSources": [
-        {
-            "index": 0,
-            "feedTitle": "The Hindu - National",
-            "feedUrl": "http://www.thehindu.com/news/national/?service=rss"
-        },
-        {
-            "index": 1,
-            "feedTitle": "The Hindu - Chennai",
-            "feedUrl": "http://www.thehindu.com/news/cities/Chennai/?service=rss"
-        },
-        {
-            "index": 2,
-            "feedTitle": "Science Daily - Top",
-            "feedUrl": "https://rss.sciencedaily.com/top.xml"
-        }
-    ]
-};
+
 // included from ../assets/w3/w3.js
 /* W3.JS 1.01 Jan 2017 by w3schools.com */
 "use strict";
@@ -367,6 +349,7 @@ w3.displayObject = function (id, data) {
         for (ii = 0; ii < a.length; ii += 1) {
           a[ii].value = w3_replace_curly(a[ii], "attribute", repeatX, repeatObj[x]).value;
         }
+        rowClone.setAttribute('display-object-index', x); //Prasanna's attribute for mapping Objects to Elements
         (i === repeatObj.length) ? arr[j].parentNode.replaceChild(rowClone, arr[j]) : arr[j].parentNode.insertBefore(rowClone, arr[j]);
       }
     } else {
@@ -441,20 +424,21 @@ w3.displayObject = function (id, data) {
     a.innerHTML = a.innerHTML.replace(r, result);
   }
 };
+
 // included from ../assets/rsser/rsser.js
 const Rss = {
 
-    init: function (options) {
+    init: function(options) {
 
         Rss.checkDependenciesMeet(options)
             .then(Rss.configureOptions)
             .then(Rss.makeFeedContainer)
             .then(Rss.registerEventListeners)
             .then(Rss.load)
-            .catch(new Error())
+            .catch(new Error());
     },
 
-    checkDependenciesMeet: function (options) {
+    checkDependenciesMeet: function(options) {
 
         const feedListContainer = document.querySelector('.rss-channels-container');
 
@@ -468,29 +452,34 @@ const Rss = {
         });
     },
 
-    configureOptions: function (options) {
+    configureOptions: function(options) {
 
-            console.log("aaaa");
         return new Promise((resolve, reject) => {
-
-
             if (options) {
                 Rss.config = Object.assign(Rss.config, options);
             }
-            resolve();
+            if (Rss.config.rssSources()) {
+                resolve();
+            } else {
+
+                const msg = "Rsser is not configured yet. Please use Options to add Rss Channels";
+                document.querySelector('.rss-channels-container').style.display = 'none';
+                Rss.showNotification(msg);
+                reject(msg);
+            }
         });
     },
 
-    makeFeedContainer: function () {
+    makeFeedContainer: function() {
 
         return new Promise((resolve, reject) => {
 
-            w3.displayObject("rss-channels-container", Rss.config.rssSources);
+            w3.displayObject("rss-channels-container", Rss.config.rssSources());
             resolve();
         });
     },
 
-    registerEventListeners: function () {
+    registerEventListeners: function() {
 
         return new Promise((resolve, reject) => {
 
@@ -510,8 +499,8 @@ const Rss = {
             for (let i = 0; i < rssReloaders.length; ++i) {
 
                 rssReloaders[i].addEventListener('click', (e) => {
-
-                    Rss.reload(e.target.getAttribute("source"));
+                    //Todo: change this
+                    Rss.reload(e.target.parentNode.parentNode.parentNode);
                 });
             }
 
@@ -519,15 +508,15 @@ const Rss = {
         });
     },
 
-    getFeeds: function (srcUrlTitle, srcUrl, ele) {
+    getFeeds: function(srcUrlTitle, srcUrl, ele) {
         const xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function () {
+        xhttp.onreadystatechange = function() {
 
             if (this.readyState == 4 && this.status == 200) {
 
                 Rss.showNotification("Got Feeds for " + srcUrlTitle);
-                Rss.update(srcUrl, this.responseText, ele);
+                Rss.update(srcUrlTitle, this.responseText, ele);
             }
         }
 
@@ -536,35 +525,34 @@ const Rss = {
             const msg = "Feeds fetching failed!";
 
             Rss.logConsole(msg, "error");
-            ele.innerHTML = Rss.formatAsError(msg);
+            ele.querySelector('.rss-feed').innerHTML = Rss.formatAsError(msg);
         });
 
         xhttp.open("GET", srcUrl, true);
         xhttp.send();
     },
 
-    load: function () {
+    load: function() {
 
-        const eles = document.querySelectorAll(".rss-feed");
+        const eles = document.querySelectorAll(".rss-channel-container");
 
         for (let i = 0; i < eles.length; i++) {
 
-            const srcAttrVal = eles[i].getAttribute("source");
-            const srcUrlIndex = srcAttrVal.split('.')[1];
-            const srcUrlTitle = Rss.config.rssSources.rssSources[srcUrlIndex].feedTitle;
-            const srcUrl = Rss.config.rssSources.rssSources[srcUrlIndex].feedUrl;
+            const srcUrlIndex = eles[i].getAttribute('display-object-index');
+            const srcUrlTitle = Rss.config.rssSources().rssSources[srcUrlIndex].feedTitle;
+            const srcUrl = Rss.config.rssSources().rssSources[srcUrlIndex].feedUrl;
 
-            const lsItem = localStorage.getItem(srcUrl);
+            const lsItem = Rss.config.rssSources().rssSources[srcUrlIndex].feedData;
 
-            const minutesNow = (new Date()).getMinutes() || 60;
-            const lastUpateAtMins = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
-            const timeLeft = minutesNow - lastUpateAtMins;
+            const UnixTime_Now = Date.now();
+            const UnixTime_lastUpateAt = parseInt(localStorage.getItem("lastUpdateAt")) || 0;
+            const timeLeft = UnixTime_Now - UnixTime_lastUpateAt;
 
             var status = "Hi";
 
             if (lsItem !== null) {
 
-                eles[i].innerHTML = lsItem;
+                eles[i].querySelector('.rss-feed').innerHTML = lsItem;
                 status = "Loaded feeds from Local Storage.";
 
             } else {
@@ -573,7 +561,7 @@ const Rss = {
                 status = "Downloading feeds.";
             }
 
-            if ((timeLeft >= 10 || timeLeft < 0) && navigator.onLine) {
+            if ((timeLeft < 0 || timeLeft > 60000) && navigator.onLine) {
 
                 Rss.getFeeds(srcUrlTitle, srcUrl, eles[i]);
                 status = "Downloading feeds.";
@@ -588,37 +576,47 @@ const Rss = {
 
     },
 
-    reload: function (trgt) {
+    reload: function(ele) {
 
         if (navigator.onLine) {
 
-            const srcUrlIndex = trgt.split('.')[1];
-            const srcUrlTitle = Rss.config.rssSources.rssSources[srcUrlIndex].feedTitle;
-            localStorage.removeItem(srcUrlTitle);
+            const srcUrlIndex = ele.getAttribute('display-object-index');
+            const srcUrlTitle = Rss.config.rssSources().rssSources[srcUrlIndex].feedTitle;
+            let rssSourcesCopy = Rss.config.rssSources();
+
+            rssSourcesCopy.rssSources[srcUrlIndex].feedData = null;
+            localStorage.setItem('feedSources', JSON.stringify(rssSourcesCopy));
             Rss.showNotification("Reloading feed: " + srcUrlTitle);
             Rss.load();
+
         } else {
 
             return Rss.showNotification("Failed to reload feed. The App is Offline.");
         }
     },
 
-    reloadAll: function () {
+    reloadAll: function() {
 
-        Rss.logConsole("Feature yet to be implemented!", "error");
+        const eles = document.querySelectorAll(".rss-channel-container");
+
+        for (var i = 0; i < eles.length; i++) {
+            Rss.reload(eles[i]);
+        };
     },
 
-    update: function (srcUrl, feed, ele) {
+    update: function(srcUrl, feed, ele) {
 
         const rssFeed = Rss.makeHTML(feed);
+        const feedSourcesCopy = JSON.parse(localStorage.feedSources);
+        const feedIndex = ele.getAttribute('display-object-index')
+        feedSourcesCopy.rssSources[feedIndex].feedData = rssFeed;
+        localStorage.feedSources = JSON.stringify(feedSourcesCopy);
+        localStorage.setItem("lastUpdateAt", Date.now());
 
-        localStorage.setItem(srcUrl, rssFeed);
-        localStorage.setItem("lastUpdateAt", (new Date()).getMinutes());
-
-        ele.innerHTML = rssFeed;
+        ele.querySelector('.rss-feed').innerHTML = rssFeed;
     },
 
-    makeHTML: function (xml) {
+    makeHTML: function(xml) {
 
         function parseXMLtoJSON(xmlRaw) {
 
@@ -683,10 +681,10 @@ const Rss = {
     config: {
         isShowNotification: true,
         islogConsole: false,
-        rssSources: JSON.parse(localStorage.getItem('feedSources'))
+        rssSources: () => JSON.parse(localStorage.getItem('feedSources'))
     },
 
-    showNotification: function (message) {
+    showNotification: function(message) {
 
         if (Rss.config.isShowNotification) {
 
@@ -703,7 +701,7 @@ const Rss = {
         }
     },
 
-    logConsole: function (message, type) {
+    logConsole: function(message, type) {
 
         if (Rss.config.islogConsole) {
 
@@ -720,11 +718,12 @@ const Rss = {
         }
     },
 
-    formatAsError: function (message) {
+    formatAsError: function(message) {
 
         return '<center><p style="font-size:20px; color:red">' + message + '</p></center>';
     }
 }
+
 // included from ../assets/rsser/date-formatter.js
 var dater = {
     date_options: {
@@ -747,6 +746,7 @@ var dater = {
     }
 
 }
+
 // included from ../scripts/home.js
 const Home = {
 
@@ -832,16 +832,24 @@ const Home = {
         }
     }
 }
+
 // included from ../scripts/options.js
-var optionsModalContainer = document.querySelector('.options-modal-container');
+const optionsModalContainer = document.querySelector('.options-modal-container');
+const rssSourcesTitleInput = document.querySelector('.rssSources-title-input');
 
 document.querySelector('.options-modal-close-btn').addEventListener('click', () => {
 
     optionsModalContainer.style.display = 'none';
 });
 
-w3.displayObject("rssSources-list", rssSources);
-w3.displayObject("shortcuts-list", shortcuts);
+rssSourcesTitleInput.addEventListener('keyup', function (e) {
+    (e.keyCode === 13) ? localStorage.setItem("feedSources",JSON.stringify(JSON.parse(this.value))) : "";
+});
+
+// rssSourcesTitleInput.value = JSON.stringify(Rss.config.rssSources());
+// w3.displayObject("rssSources-list", rssSources);
+// w3.displayObject("shortcuts-list", shortcuts);
+
 // included from ../scripts/index.js
 function startHome() {
 
@@ -859,11 +867,11 @@ function startHome() {
 
     Home.initUserName(userName);
 
-    Home.initNavitems();  
+    Home.initNavitems();
 
     Home.registerEventListeners();
 
-    Rss.init({islogConsole: true});
+    Rss.init({ islogConsole: true });
   }
 }
 
